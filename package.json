@@ -1,0 +1,21 @@
+{
+  "name": "testmasterhub-tool",
+  "version": "1.0.0",
+  "description": "TestMasterHub API testing tool",
+  "main": "lib/server.js",
+  "bin": {
+    "testmasterhub-tool": "./bin/www"
+  },
+  "scripts": {
+    "start": "npm-run-all --parallel server proxy",
+    "server": "node lib/server.js",
+    "proxy": "node client/ProxyServer.js",
+    "build": "cd client && npm run build"
+  },
+  "dependencies": {
+    "express": "^4.19.2"
+  },
+  "devDependencies": {
+    "npm-run-all": "^4.1.5"
+  }
+}
