@@ -1,0 +1,33 @@
+.RBodyMainWrapper{
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+}
+.RBodylabel{
+    padding-left: 10px;
+    font-weight: bold;
+}
+.RBodyField{
+    width: 99%;
+    height: 70vh;
+    border: 1px solid lightgrey;
+    position: relative;
+    top: 15px;
+}
+.CLinkOuterWrapper {
+    width: 100%;
+    height: 100%;
+    padding: 10px;
+    cursor: pointer;
+  }
+  
+  .CLinkField {
+    text-decoration: none;
+    color: black;
+    font-weight: 500;
+    margin: 10px;
+  }
+  
+  .activeTab {
+    border-bottom: 3px solid orange; 
+  }

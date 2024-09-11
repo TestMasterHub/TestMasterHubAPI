@@ -1,0 +1,32 @@
+.PMainWrapper{
+    width: 100%;
+    height: 100%;
+    margin-top: -16px;
+    position: relative;
+}
+.PHeadFied{
+    position: absolute;
+    top: 10px;
+    left: 10px;
+}
+.PtableMain{
+    position: absolute;
+    top: 60px;
+    left: 10px;
+}
+table, th,td {
+    padding: 0px;
+    margin: 0px;
+    border:1px solid black;
+    box-sizing: border-box;
+  }
+input{
+    width: 95%;
+    height: 20px;
+    border: none;
+    background-color: lightgray;
+}
+.PtableCheckBoxWrap{
+    position: relative;
+    left: -3.5px;
+}

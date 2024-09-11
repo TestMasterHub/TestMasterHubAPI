@@ -1,0 +1,13 @@
+.AsideMainWrapper{
+    width: 190px;
+    min-height:91.79vh;
+    background-color: black;
+    box-sizing: border-box;
+}
+.AsideLinkWrapper{
+    padding: 20px;
+}
+.LinkWrapper{
+    text-decoration: none;
+    color: white;
+}

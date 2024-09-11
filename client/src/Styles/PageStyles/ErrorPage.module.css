@@ -1,0 +1,70 @@
+@media only screen and (min-width: 768px) {
+    .ErrorPage {
+      text-align: center;
+      position: relative;
+      margin: 0%;
+    }
+    .ErrroHeading {
+      font-size: 150px;
+      font-weight: 900;
+    }
+    .Errormessage {
+      width: 440px;
+      position: absolute;
+      left: 36%;
+      top: 220px;
+      text-align: center;
+    }
+    .Errormessage > h2 {
+      color: #000;
+      font-size: 24px;
+      font-weight: 700;
+      text-transform: uppercase;
+      margin-top: 0;
+    }
+    .LinkText {
+      color: white;
+      font-weight: bold;
+    }
+    .LinkButton {
+      width: 150px;
+      height: 40px;
+      border: none;
+      background-color: rgb(82, 82, 212);
+      border-radius: 20px;
+    }
+    }
+    @media only screen and (max-width: 768px) {
+      .ErrorPage {
+        text-align: center;
+        position: relative;
+        margin: 0%;
+        padding: 0px;
+      }
+      .ErrroHeading {
+        font-size: 120px;
+        font-weight: 900;
+      }
+      .Errormessage {
+        width: 100%;
+        text-align: center;
+      }
+      .Errormessage > h2 {
+        font-size: 24px;
+        font-weight: 700;
+        text-transform: uppercase;
+        margin-top: 0;
+      }
+      .LinkText {
+        color: white;
+        font-weight: bold;
+      }
+      .LinkButton {
+        width: 150px;
+        height: 40px;
+        border: none;
+        background-color: rgb(82, 82, 212);
+        border-radius: 20px;
+      }
+      }
+      
