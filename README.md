@@ -76,7 +76,7 @@ Before you start, make sure you have the following installed:
 
 ## 🧪 **How to Use**
 
-1. **Launch the Application** by navigating to `http://localhost:5000` (for the backend) or `http://localhost:8888` (for the frontend).
+1. **Launch the Application** by navigating to `http://localhost:5000` (for the backend) or `http://localhost:3000` (for the frontend).
 2. Enter the **API URL**, select the **HTTP method**, and provide the necessary headers, request body, and parameters.
 3. Click **Send Request** to view the response.
 4. Validate and assert the responses with your custom scripts.
@@ -97,7 +97,7 @@ Before you start, make sure you have the following installed:
   npm install
   ```
 
-- Ensure no other service is running on port `7070` or `3000`.
+- Ensure no other service is running on port `5000` or `3000`.
 
 ## 📄 **License**
 
