@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import styles from "../../Styles/RequestBody/ParamsComp.module.css";
+import styles from "../../Styles/RequestBody/HeaderComp.module.css";
 
 export default function HeaderComp({ headers, setHeaders }) {
   const [rows, setRows] = useState([
@@ -9,7 +9,7 @@ export default function HeaderComp({ headers, setHeaders }) {
     { key: "Connection", value: "keep-alive", description: "", checked: true, disabled: true }
   ]);
 
-  const maxRows = 16;
+  const maxRows = 20;
 
   const handleInputChange = (index, field, value) => {
     if (!rows[index].disabled) {
@@ -56,7 +56,7 @@ export default function HeaderComp({ headers, setHeaders }) {
             <th>Actions</th>
           </tr>
         </thead>
-        <tbody>
+        <tbody className={styles.TBodyWrap}>
           {rows.map((row, index) => (
             <tr key={index}>
               <td>
@@ -93,7 +93,7 @@ export default function HeaderComp({ headers, setHeaders }) {
               </td>
               <td>
                 {index === rows.length - 1 && (
-                  <button onClick={handleAddNew}>Add New</button>
+                  <button onClick={handleAddNew}>Add</button>
                 )}
               </td>
             </tr>

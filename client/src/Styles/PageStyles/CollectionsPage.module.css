@@ -1,175 +1,175 @@
 .CollectionPagemainWrapper{
-    width: 100.6%;
-    height: 100%;
-    box-sizing: border-box;
-    padding: 0px;
-    margin: 0px;
-    position: relative;
-    top: -19px;
-    left: -9px;
+  width: 100.6%;
+  height: 100%;
+  box-sizing: border-box;
+  padding: 0px;
+  margin: 0px;
+  position: relative;
+  top: -19px;
+  left: -9px;
 }
 .CHeadingField{
-  position: relative;
-  left: 10px;
-  width: 50%;
-  top: 5px;
+position: relative;
+left: 10px;
+width: 50%;
+top: 5px;
 }
 .CollectionInnerWrapper{
-    width: 100%;
-    height: 40px;
-    position: absolute;
-    top: 35px;
-    box-sizing: border-box;
-}
-.CSearchMainWrapper{
-    width: 100%;
-    height: 40px;
-    display: flex;
-    box-sizing: border-box;
-}
-.CDropDownWrapper{
-    height: 100%;
-    width: 7%;
-    background-color: gray;
-    box-sizing: border-box;
-}
-.CSelectList{
-    width: 100%;
-    height: 100%;
-    border: none;
-    font-weight: bold;
-    padding-left: 15px;
-    background-color: lightgray;
-}
-.CSelectList :active{
-    border: none;
-    appearance: none;
-    outline: none;
-}
-.HrLine{
-    width: 1px;
-    height: 80%;
-    background-color: gray;
-    margin-top: 3px;
-    margin-left: 2px;
-    margin-right: 2px;
-}
-.CSearchWrapper{
-    width: 75%;
-    height: 93%;
-}
-.CSearchfield{
-    width: 100%;
-    height: 100%;
-    border: none;
-    background-color: lightgray;
-    font-size: medium;
-}
-.CSavebtn{
-    width: 8%;
-    height: 100%;
-    margin-left: 0.9%;
-    margin-right: 0.5%;
-}
-.CSendBtn{
-    width: 8%;
-    height: 100%;
-}
-.CSendField, .CSaveField{
-    width: 100%;
-    height: 100%;
-    border: none;
-    border-radius: 5px;
-    font-weight: bold;
-    background-color: lightgray;
-}
-.CBodyWrapper{
-    width: 100%;
-    height: 88%;
-    position: absolute;
-    top: 80px;
-    display: flex;
-    flex-direction: row;
-    box-sizing: border-box;
-}
-.CRequestBodyWrapper,
-.CresponseWrapper {
-  width: 50%;
-  height: 100%;
-  border: 3px solid lightgrey;
+  width: 100%;
+  height: 40px;
+  position: absolute;
+  top: 35px;
   box-sizing: border-box;
 }
-.CRequestOptionWrapper, .CResponseOptionWrapper{
-    width: 100%;
-    height: 30px;
-    box-sizing: border-box;
+.CSearchMainWrapper{
+  width: 100%;
+  height: 40px;
+  display: flex;
+  box-sizing: border-box;
+}
+.CDropDownWrapper{
+  height: 100%;
+  width: 7%;
+  background-color: gray;
+  box-sizing: border-box;
+}
+.CSelectList{
+  width: 100%;
+  height: 100%;
+  border: none;
+  font-weight: bold;
+  padding-left: 15px;
+  background-color: lightgray;
+}
+.CSelectList :active{
+  border: none;
+  appearance: none;
+  outline: none;
+}
+.HrLine{
+  width: 1px;
+  height: 80%;
+  background-color: gray;
+  margin-top: 3px;
+  margin-left: 2px;
+  margin-right: 2px;
+}
+.CSearchWrapper{
+  width: 75%;
+  height: 93%;
+}
+.CSearchfield{
+  width: 100%;
+  height: 100%;
+  border: none;
+  background-color: lightgray;
+  font-size: medium;
+}
+.CSavebtn, .CSendBtn{
+  width: 8%;
+  height: 100%;
+  position: relative;
+  top: 4px;
+  left: 9px;
+  margin-left: 4px;
+}
+
+.CSendField, .CSaveField{
+  width: 100%;
+  height: 100%;
+  border: none;
+  border-radius: 5px;
+  font-weight: bold;
+  background-color: #007bff;
+}
+.CBodyWrapper{
+  width: 100%;
+  height: 88%;
+  position: absolute;
+  top: 80px;
+  display: flex;
+  flex-direction: row;
+  box-sizing: border-box;
+}
+.CRequestBodyWrapper,
+.CResponseBodyWrapper {
+width: 50%;
+height: 100%;
+border: 3px solid lightgrey;
+box-sizing: border-box;
+}
+.CRequestOptionWrapper{
+  width: 100%;
+  height: 30px;
+  box-sizing: border-box;
 }
 .CLinkOuterWrapper {
-    width: 100%;
-    height: 100%;
-    padding: 10px;
-  }
-  
-  .CLinkField {
-    text-decoration: none;
-    color: black;
-    font-weight: 500;
-    margin: 10px;
-  }
-  
-  .activeTab {
-    border-bottom: 3px solid orange; 
-  }
-  
-  .CLinkField:hover {
-    color: #ffcc00; 
-  }
-  .CResponseHeading{
-    width: 60px;
-    position: relative;
-    top: -20px;
-    left: 5px;
-  }
-  .CResponseOptionWrapper{
-    display: flex;
-  }
-  .CResponseContent{
-    position: relative;
-    top: -10px;
-    width: 100%;
-    height: 90%;
-    box-sizing: border-box;
-  }
-  .CstatusCodefield{
-    position: absolute;
-    right: 50px;
-    top: 7px;
-    font-weight: bold;
-  }
-  .response {
-    white-space: pre-wrap;
-    word-wrap: break-word;
-    background-color: #eef;
-    padding-left: 10px;
-    border-radius: 5px;
-    font-family: monospace;
-    height: 558px;
-    overflow-y: auto;
-    box-sizing: border-box;
-  }
-  .CRequestOptionInputWrapper{
-    width: 100%;
-    height: 557px;
-  }
-  .LoadingField{
-    position: absolute;
-    z-index: 10000;
-    top: 45%;
-    right: 250px;
-    font-weight: bold;
-    font-size: large;
-  }
-  /* Add this new class for the red border */
+  width: 100%;
+  height: 100%;
+  padding: 10px;
+}
+
+.CLinkField {
+  text-decoration: none;
+  color: black;
+  font-weight: 500;
+  margin: 10px;
+}
+
+.activeTab {
+  border-bottom: 3px solid orange; 
+}
+
+.CLinkField:hover {
+  color: #ffcc00; 
+}
+.CRequestOptionInputWrapper{
+  width: 100%;
+  height: 557px;
+}
+.LoadingField{
+  position: absolute;
+  z-index: 10000;
+  top: 45%;
+  right: 250px;
+  font-weight: bold;
+  font-size: large;
+}
 .errorBorder {
-  border: 2px solid red;
+border: 2px solid red;
+}
+.CResponseStatusWrapper{
+  display: flex;
+  width: 100%;
+  height: 30px;
+  position: relative;
+}
+.CResponseStatusHeading{
+  font-size: 14px;
+  position: absolute;
+  top: -10px;
+  left: 10px;
+}
+.CResponseStatusField{
+  position: absolute;
+  right: 50px;
+  top: -15px;
+}
+.CResponseMainBodyWrapper{
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  width: 100%;
+  height: 95%;
+  overflow-y: auto;
+  padding: 10px;
+  box-sizing: border-box;
+}
+.successStatus {
+  font-weight: bold;
+  color: green;
+}
+
+.errorStatus {
+  font-weight: bold;
+  color: red;
 }

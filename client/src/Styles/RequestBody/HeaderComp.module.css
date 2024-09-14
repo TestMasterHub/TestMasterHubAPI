@@ -1,33 +1,26 @@
-/* ParamsComp.module.css */
-
 .PMainWrapper {
-  padding: 10px;
-}
-
-.ParametersContainer {
-  max-height: 542px;
+  width: 100%;
+  height: 99%;
+  position: relative;
+  top: 10px;
   overflow-y: auto;
 }
-
-.PHeadFied {
-  font-size: 12px;
-  font-weight: bold;
-  margin-bottom: 10px;
+.PHeadFied{
+  position: absolute;
+  top: -20px;
+  left: 10px;
 }
-
-.PtableMain {
+.PtableMain{
   width: 100%;
-  border-collapse: collapse;
-  margin-bottom: 10px;
+  position: absolute;
+  top: 20px;
 }
-
 .PtableMain th,
 .PtableMain td {
   border: 1px solid #ddd;
   padding: 5px;
   text-align: left;
 }
-
 .PtableMain th {
   font-size: 12px;
   background-color: #f4f4f4;
@@ -55,22 +48,4 @@ button {
 
 button:hover {
   background-color: #0056b3;
-}
-
-.ParmaTypeHead {
-  font-size: 12px;
-  font-weight: 500;
-  margin-bottom: 10px;
-}
-
-.PtableMain .actions {
-  text-align: center;
-}
-
-.PtableMain .actions button {
-  margin-top: 10px;
-}
-
-.DisplayOldUrl {
-  width: 100%;
 }

@@ -4,6 +4,7 @@
     box-sizing: border-box;
 }
 .RBodylabel{
+  font-size: 13px;
     padding-left: 10px;
     font-weight: bold;
 }
@@ -22,6 +23,7 @@
   }
   
   .CLinkField {
+    font-size: 13px;
     text-decoration: none;
     color: black;
     font-weight: 500;

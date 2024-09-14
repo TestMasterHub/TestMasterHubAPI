@@ -1,13 +1,9 @@
-import MainLayout from "../Layouts/MainLayout";
-function Homepage(){
-    return(
-        <div>
-            <MainLayout >
-                <div>
-                    <h1>Hello World</h1>
-                </div>
-            </MainLayout>
-        </div>
-    )
+import CollectionPage from "./CollectionPage";
+function Homepage() {
+  return (
+    <div>
+      <CollectionPage />
+    </div>
+  );
 }
 export default Homepage;

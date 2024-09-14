@@ -1,5 +1,5 @@
 import React from "react";
-import styles from ".././../Styles/RequestBody/AuthComp.module.css";
+import styles from "../../Styles/RequestBody/AuthComp.module.css";
 
 const AuthComp = ({ authToken, setAuthToken, requestType, setRequestType, basicAuth, setBasicAuth }) => {
   return (
@@ -24,7 +24,7 @@ const AuthComp = ({ authToken, setAuthToken, requestType, setRequestType, basicA
       <div className={styles.RAuthInputmainWrapper}>
         {requestType === "Bearer" ? (
           <div className={styles.RAuthInputinnerWrapper}>
-            <h5 className={styles.RAuthInputLabel}>Token</h5>
+            <label className={styles.RAuthInputLabel}>Token</label>
             <input
               className={styles.RAuthInputField}
               value={authToken}
@@ -33,7 +33,6 @@ const AuthComp = ({ authToken, setAuthToken, requestType, setRequestType, basicA
           </div>
         ) : (
           <div className={styles.RAuthInputinnerWrapper}>
-            <h5 className={styles.RAuthBasicHead}>Basic Auth</h5>
             <div className={styles.RAuthBasicUserWrap}>
               <label className={styles.RAuthBasicLabel}>Username:</label>
               <input
