@@ -173,3 +173,10 @@ border: 2px solid red;
   font-weight: bold;
   color: red;
 }
+.PConsolePage{
+  width: 120px;
+  height: 30px;
+  position: absolute;
+  top: 85px;
+  right: 100px;
+}

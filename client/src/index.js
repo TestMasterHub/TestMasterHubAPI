@@ -4,10 +4,16 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import './index.css';
 import App from './App';
 import Error from './Pages/Error'
+import ConsoleWindow from './Pages/ConsolePage';
 const router = createBrowserRouter([
   {
     path: "/", // Root path
     element: <App />,
+    errorElement: <Error />
+  },
+  {
+    path: "/console", // Root path
+    element: <ConsoleWindow />,
     errorElement: <Error />
   }
 ])

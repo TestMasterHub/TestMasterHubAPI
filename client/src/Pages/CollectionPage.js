@@ -29,6 +29,7 @@ export default function CollectionPage() {
     username: "",
     password: "",
   });
+
   const [apiResponse, setApiResponse] = useState(null);
   const [status, setStatus] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -51,7 +52,12 @@ export default function CollectionPage() {
     }
     return matches;
   };
-
+  const logRequest = (method, url, requestData, responseData) => {
+    const logs = JSON.parse(localStorage.getItem('requestLogs')) || [];
+    const newLog = { method, url, requestData, responseData, open: false }; // "open" state for dropdown
+    logs.push(newLog);
+    localStorage.setItem('requestLogs', JSON.stringify(logs));
+  };
   useEffect(() => {
     const pathParamsKeys = extractPathParams(url);
 
@@ -92,10 +98,10 @@ export default function CollectionPage() {
     setApiResponse(null);
     setUrlError(false);
     setIsLoading(true);
-
+  
     // Construct the final URL by replacing path and query parameters
     let updatedUrl = url.split("?")[0];
-
+  
     // Replace path parameters in the URL
     pathParams.forEach((param) => {
       if (param.key && param.value) {
@@ -103,7 +109,7 @@ export default function CollectionPage() {
         updatedUrl = updatedUrl.replace(regex, param.value);
       }
     });
-
+  
     // Handle query parameters
     const queryString = queryParams
       .filter((param) => param.key && param.value)
@@ -112,11 +118,11 @@ export default function CollectionPage() {
           `${encodeURIComponent(param.key)}=${encodeURIComponent(param.value)}`
       )
       .join("&");
-
+  
     const finalUrl = queryString ? `${updatedUrl}?${queryString}` : updatedUrl;
-
+  
     console.log("Updated URL after processing:", finalUrl);
-
+  
     try {
       // Send the API request using the constructed URL
       const requestData = {
@@ -128,7 +134,7 @@ export default function CollectionPage() {
         },
         data: requestBody ? JSON.parse(requestBody) : {},
       };
-
+  
       const { apiResponse, status } = await APIServer({
         requestData,
         authToken,
@@ -137,9 +143,12 @@ export default function CollectionPage() {
         preRequestScript,
         testScript,
       });
-
+  
       setApiResponse(apiResponse);
       setStatus(status);
+  
+      // Log request and response data
+      logRequest(requestType, url, requestData, apiResponse);
     } catch (error) {
       console.error("Error sending API request:", error);
       alert("Failed to send API request.");
@@ -147,9 +156,14 @@ export default function CollectionPage() {
       setIsLoading(false);
     }
   };
+  
 
   const handleTabClick = (tab) => {
     setActiveTab(tab);
+  };
+  const openConsole = () => {
+    // Open the console in a new window
+    window.consoleWindow = window.open('/console', '_blank', 'width=800,height=600');
   };
 
   // Determine if status code is 2xx (success) or other (error)
@@ -318,6 +332,9 @@ export default function CollectionPage() {
                 </pre>
               </div>
             </div>
+          </div>
+          <div>
+            <button className={styles.PConsolePage} onClick={openConsole}>Open Console</button>
           </div>
         </div>
       </MainLayout>
