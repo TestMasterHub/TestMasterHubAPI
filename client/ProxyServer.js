@@ -9,7 +9,7 @@ app.use(express.json());
 
 app.post('/api/proxy', async (req, res) => {
   const { method, url, headers, data } = req.body;
-
+  console.log(method +'\n'+ url +'\n'+headers +'\n'+data )
   try {
     const response = await axios({
       method,

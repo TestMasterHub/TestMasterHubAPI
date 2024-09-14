@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import MainLayout from "../Layouts/MainLayout";
 import styles from "../Styles/PageStyles/CollectionsPage.module.css";
@@ -8,7 +8,7 @@ import APIServer from "../APIFunction/APIServer";
 import ParamsComp from "../Components/RequestBody/ParamsComp";
 import HeaderComp from "../Components/RequestBody/HeaderComp";
 import ScriptsComp from "../Components/RequestBody/ScriptsComp";
-import TMH from '../Utlis/TMH';
+import TMH from "../Utlis/TMH";
 
 window.TMH = TMH;
 
@@ -21,7 +21,9 @@ export default function CollectionPage() {
   const [requestBody, setRequestBody] = useState("");
   const [authType, setAuthType] = useState("Bearer");
   const [preRequestScript, setPreRequestScript] = useState("");
-  const [testScript, setTestScript] = useState("const JsonData = TMH.response.json(responseData);");
+  const [testScript, setTestScript] = useState(
+    "const JsonData = TMH.response.json(responseData);"
+  );
   const [basicAuth, setBasicAuth] = useState({
     username: "",
     password: "",
@@ -29,7 +31,68 @@ export default function CollectionPage() {
   const [apiResponse, setApiResponse] = useState(null);
   const [status, setStatus] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [urlError, setUrlError] = useState(false); // State to track URL validation
+  const [urlError, setUrlError] = useState(false);
+
+  // Separate state variables for path and query params
+  const [pathParams, setPathParams] = useState([]);
+  const [queryParams, setQueryParams] = useState([{ key: "", value: "", description: "" }]);
+
+  useEffect(() => {
+    const pathParamsKeys = extractPathParams(url);
+  
+    setPathParams((prevPathParams) => {
+      const updatedPathParams = pathParamsKeys.map((key) => {
+        // Find the existing param if it exists, keep its value, otherwise create a new one
+        const existingParam = prevPathParams.find((param) => param.key === key);
+        return {
+          key,
+          value: existingParam ? existingParam.value : "", // Retain the existing value if it exists
+          description: existingParam ? existingParam.description : "",
+          isPath: true,
+        };
+      });
+      return updatedPathParams;
+    });
+  }, [url]);
+  
+
+  const extractPathParams = (url) => {
+    const regex = /:(\w+)/g; // Match ':key' format
+    const matches = [];
+    let match;
+    while ((match = regex.exec(url)) !== null) {
+      matches.push(match[1]);
+    }
+    return matches;
+  };
+
+  const handleParamsChange = (updatedPathParams, updatedQueryParams) => {
+    setPathParams(updatedPathParams);
+    setQueryParams(updatedQueryParams);
+
+    // Build the URL with the updated path and query parameters
+    let updatedUrl = url.split("?")[0]; // Remove existing query parameters
+
+    // Replace path parameters in URL
+    updatedPathParams.forEach((param) => {
+      if (param.key && param.value) {
+        const regex = new RegExp(`:${param.key}`, "g"); // Match ':key' format
+        updatedUrl = updatedUrl.replace(regex, param.value);
+      }
+    });
+
+    // Handle query parameters
+    const queryString = updatedQueryParams
+      .filter((param) => param.key && param.value)
+      .map(
+        (param) =>
+          `${encodeURIComponent(param.key)}=${encodeURIComponent(param.value)}`
+      )
+      .join("&");
+
+    const finalUrl = queryString ? `${updatedUrl}?${queryString}` : updatedUrl;
+    setUrl(finalUrl);
+  };
 
   const HandleSavebtn = () => {
     alert("Demo Save Function");
@@ -40,10 +103,12 @@ export default function CollectionPage() {
       setUrlError(true);
       return; // Do not send request if URL is empty
     }
-    setApiResponse(null)
+    setApiResponse(null);
     setUrlError(false);
     setIsLoading(true);
     try {
+      console.log("Sending request to URL:", url); // Log URL for debugging
+
       const requestData = {
         method: requestType,
         url: url,
@@ -104,7 +169,9 @@ export default function CollectionPage() {
               <div className={styles.CSearchWrapper}>
                 <input
                   type="text"
-                  className={`${styles.CSearchfield} ${urlError ? styles.errorBorder : ""}`}
+                  className={`${styles.CSearchfield} ${
+                    urlError ? styles.errorBorder : ""
+                  }`}
                   placeholder="Enter URL"
                   value={url}
                   onChange={(e) => {
@@ -172,7 +239,15 @@ export default function CollectionPage() {
                 </span>
               </div>
               <div className={styles.CRequestOptionInputWrapper}>
-                {activeTab === "Params" && <ParamsComp />}
+                {activeTab === "Params" && (
+                  <ParamsComp
+                    onParamsChange={handleParamsChange}
+                    pathParams={pathParams}
+                    setPathParams={setPathParams}
+                    queryParams={queryParams}
+                    setQueryParams={setQueryParams}
+                  />
+                )}
                 {activeTab === "Auth" && (
                   <div>
                     <AuthComp
@@ -186,10 +261,7 @@ export default function CollectionPage() {
                   </div>
                 )}
                 {activeTab === "Header" && (
-                  <HeaderComp
-                    headers={headers}
-                    setHeaders={setHeaders}
-                  />
+                  <HeaderComp headers={headers} setHeaders={setHeaders} />
                 )}
                 {activeTab === "RequestBody" && (
                   <RequestBodyComp

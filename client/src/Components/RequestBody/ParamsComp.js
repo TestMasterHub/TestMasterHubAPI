@@ -1,28 +1,90 @@
-import React, { useState } from "react";
-import styles from '../../Styles/RequestBody/ParamsComp.module.css'
+import React from "react";
+import styles from "../../Styles/RequestBody/ParamsComp.module.css";
 
-export default function ParamsComp() {
-  const [rows, setRows] = useState([{ key: "", value: "", description: "" }]);
-  const maxRows = 17;
-
+export default function ParamsComp({
+  onParamsChange,
+  pathParams,
+  setPathParams,
+  queryParams,
+  setQueryParams,
+}) {
+  // Handle adding a new query parameter (unchanged)
   const handleAddNew = () => {
-    if (rows.length < maxRows) {
-      setRows([...rows, { key: "", value: "", description: "" }]);
+    if (queryParams.length < 17) {
+      setQueryParams([
+        ...queryParams,
+        { key: "", value: "", description: "", isPath: false },
+      ]);
     } else {
       alert("You cannot add more than 17 rows.");
     }
   };
 
-  // Function to handle input changes
-  const handleInputChange = (index, field, value) => {
-    const updatedRows = [...rows];
-    updatedRows[index][field] = value;
-    setRows(updatedRows);
+  // Handle changes in the path parameters (only updating value, not key)
+  const handlePathParamChange = (index, value) => {
+    const updatedPathParams = [...pathParams];
+
+    updatedPathParams[index] = {
+      ...updatedPathParams[index],
+      value: value, // Only allow the value to be modified
+    };
+
+    setPathParams(updatedPathParams); // Update state with modified path parameters
+    onParamsChange(updatedPathParams, queryParams); // Notify parent component
+  };
+
+  // Handle changes in query parameters (unchanged)
+  const handleQueryParamChange = (index, field, value) => {
+    const updatedQueryParams = [...queryParams];
+    updatedQueryParams[index][field] = value;
+
+    setQueryParams(updatedQueryParams);
+    onParamsChange(pathParams, updatedQueryParams);
   };
 
   return (
     <div className={styles.PMainWrapper}>
-      <h5 className={styles.PHeadFied}>Path Params</h5>
+      {/* Path Parameters Section */}
+      {pathParams.length > 0 && <h6>Path Parameters</h6>}
+      {pathParams.length > 0 && (
+        <table className={styles.PtableMain}>
+          <thead>
+            <tr className={styles.PtableRowWrap}>
+              <th>Key</th>
+              <th>Value</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            {pathParams.map((row, index) => (
+              <tr key={index}>
+                <td>
+                  <input value={row.key} readOnly disabled /> {/* Non-editable key */}
+                </td>
+                <td>
+                  <input
+                    value={row.value}
+                    onChange={(e) => handlePathParamChange(index, e.target.value)}
+                    placeholder={`Enter value for ${row.key}`}
+                  />
+                </td>
+                <td>
+                  <input
+                    value={row.description}
+                    onChange={(e) =>
+                      handlePathParamChange(index, e.target.value)
+                    }
+                    placeholder="Description (optional)"
+                  />
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      )}
+
+      {/* Query Parameters Section */}
+      <h6>Query Parameters</h6>
       <table className={styles.PtableMain}>
         <thead>
           <tr className={styles.PtableRowWrap}>
@@ -33,13 +95,13 @@ export default function ParamsComp() {
           </tr>
         </thead>
         <tbody>
-          {rows.map((row, index) => (
+          {queryParams.map((row, index) => (
             <tr key={index}>
               <td>
                 <input
                   value={row.key}
                   onChange={(e) =>
-                    handleInputChange(index, "key", e.target.value)
+                    handleQueryParamChange(index, "key", e.target.value)
                   }
                 />
               </td>
@@ -47,7 +109,7 @@ export default function ParamsComp() {
                 <input
                   value={row.value}
                   onChange={(e) =>
-                    handleInputChange(index, "value", e.target.value)
+                    handleQueryParamChange(index, "value", e.target.value)
                   }
                 />
               </td>
@@ -55,12 +117,14 @@ export default function ParamsComp() {
                 <input
                   value={row.description}
                   onChange={(e) =>
-                    handleInputChange(index, "description", e.target.value)
+                    handleQueryParamChange(index, "description", e.target.value)
                   }
                 />
               </td>
-              <td>
-                {index === 0 && <button onClick={handleAddNew}>Add New</button>}
+              <td className={styles.actions}>
+                {index === queryParams.length - 1 && (
+                  <button onClick={handleAddNew}>Add</button>
+                )}
               </td>
             </tr>
           ))}

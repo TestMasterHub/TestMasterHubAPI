@@ -65,7 +65,7 @@ export default async function APIServer({
         Authorization: `Basic ${base64Credentials}`,
       };
     }
-
+    console.log(requestData.headers)
     const response = await axios.post("http://localhost:5000/api/proxy", {
       method: requestData.method,
       url: requestData.url,

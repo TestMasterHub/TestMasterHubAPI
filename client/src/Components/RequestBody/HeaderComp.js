@@ -1,24 +1,47 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styles from "../../Styles/RequestBody/ParamsComp.module.css";
 
-export default function HeaderComp() {
-  const [rows, setRows] = useState([{ key: "", value: "", description: "" }]);
+export default function HeaderComp({ headers, setHeaders }) {
+  const [rows, setRows] = useState([
+    { key: "Accept-Encoding", value: "gzip, deflate, br", description: "", checked: true, disabled: true },
+    { key: "User-Agent", value: "TestMasterHub/1.0 (Windows NT 10.0; Win64; x64)", description: "", checked: true, disabled: true },
+    { key: "Accept", value: "application/json", description: "", checked: true, disabled: true },
+    { key: "Connection", value: "keep-alive", description: "", checked: true, disabled: true }
+  ]);
+
   const maxRows = 16;
+
+  const handleInputChange = (index, field, value) => {
+    if (!rows[index].disabled) {
+      const updatedRows = [...rows];
+      updatedRows[index][field] = value;
+      setRows(updatedRows);
+    }
+  };
+
+  const handleCheckboxChange = (index, checked) => {
+    const updatedRows = [...rows];
+    updatedRows[index].checked = checked;
+    setRows(updatedRows);
+  };
 
   const handleAddNew = () => {
     if (rows.length < maxRows) {
-      setRows([...rows, { key: "", value: "", description: "" }]);
+      setRows([...rows, { key: "", value: "", description: "", checked: false, disabled: false }]);
     } else {
       alert("You cannot add more than 16 rows.");
     }
   };
 
-  // Function to handle input changes
-  const handleInputChange = (index, field, value) => {
-    const updatedRows = [...rows];
-    updatedRows[index][field] = value;
-    setRows(updatedRows);
-  };
+  useEffect(() => {
+    const updatedHeaders = rows.reduce((acc, row) => {
+      if (row.checked && row.key.trim() && row.value.trim()) {
+        acc[row.key] = row.value;
+      }
+      return acc;
+    }, {});
+    setHeaders(updatedHeaders);
+  }, [rows, setHeaders]);
 
   return (
     <div className={styles.PMainWrapper}>
@@ -37,34 +60,41 @@ export default function HeaderComp() {
           {rows.map((row, index) => (
             <tr key={index}>
               <td>
-                <input className={styles.PtableCheckBoxWrap} type="checkbox" />
+                <input
+                  className={styles.PtableCheckBoxWrap}
+                  type="checkbox"
+                  checked={row.checked}
+                  onChange={(e) => handleCheckboxChange(index, e.target.checked)}
+                />
               </td>
               <td>
                 <input
+                  className={row.disabled ? styles.disabledInput : ""}
                   value={row.key}
-                  onChange={(e) =>
-                    handleInputChange(index, "key", e.target.value)
-                  }
+                  disabled={row.disabled}
+                  onChange={(e) => handleInputChange(index, "key", e.target.value)}
                 />
               </td>
               <td>
                 <input
+                  className={row.disabled ? styles.disabledInput : ""}
                   value={row.value}
-                  onChange={(e) =>
-                    handleInputChange(index, "value", e.target.value)
-                  }
+                  disabled={row.disabled}
+                  onChange={(e) => handleInputChange(index, "value", e.target.value)}
                 />
               </td>
               <td>
                 <input
+                  className={row.disabled ? styles.disabledInput : ""}
                   value={row.description}
-                  onChange={(e) =>
-                    handleInputChange(index, "description", e.target.value)
-                  }
+                  disabled={row.disabled}
+                  onChange={(e) => handleInputChange(index, "description", e.target.value)}
                 />
               </td>
               <td>
-                {index === 0 && <button onClick={handleAddNew}>Add New</button>}
+                {index === rows.length - 1 && (
+                  <button onClick={handleAddNew}>Add New</button>
+                )}
               </td>
             </tr>
           ))}
