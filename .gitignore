@@ -4,6 +4,8 @@
 /node_modules
 
 client/node_modules
+
+client/src/__Tests__
 /.pnp
 .pnp.js
 # testing
@@ -12,6 +14,7 @@ client/node_modules
 # production
 /build
 client/node_modules
+client/src/__Tests__
 
 # misc
 .DS_Store

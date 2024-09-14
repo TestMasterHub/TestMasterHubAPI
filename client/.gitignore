@@ -3,6 +3,7 @@ node_modules/
 
 # Build output
 build/
+client/src/__Tests__
 
 # Local environment files
 .env.local
