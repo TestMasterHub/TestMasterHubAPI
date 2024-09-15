@@ -1,13 +1,36 @@
-.AsideMainWrapper{
-    width: 190px;
-    min-height:91.79vh;
+/* AsideMainWrapper remains the same */
+.AsideMainWrapper {
+    width: 100px;
+    min-height: 87vh;
     background-color: black;
     box-sizing: border-box;
+    position: relative;
 }
-.AsideLinkWrapper{
+
+/* Link styles */
+.AsideLinkWrapper {
+    font-size: 12px;
     padding: 20px;
+    position: relative;
+    left: -20px;
 }
-.LinkWrapper{
+
+.LinkWrapper {
     text-decoration: none;
     color: white;
+}
+
+.AsiseSubOption {
+    width: 120px;
+    height: 100%;
+    background-color: black;
+    color: white;
+    position: absolute;
+    left:100px;
+    top: 0;
+    z-index: 10000;
+    transition: margin-left 0.3s;
+}
+.AsideSubMenu{
+    font-size: 12px;
 }

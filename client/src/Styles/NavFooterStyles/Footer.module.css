@@ -1,18 +1,45 @@
 .FooterMainWrapper{
     width: 100%;
-    height: 70px;
+    height: 35.5px;
     background-color: black;
-    color: white;
-    margin: 0px;
-    padding: 0px;
     box-sizing: border-box;
+    display: flex;
     position: relative;
 }
-.FooterMainWrapper h2{
-    padding:0px;
-    margin: 0px;
-    text-align: left;
+.FproxyStatud{
+    color: white;
     position: absolute;
-    top: 40%;
-    left: 10px;
+    top: 0px;
+    left: 120px;
+    font-size: 12px;
 }
+.FConsolePage{
+    width: 90px;
+    height: 30px;
+    position: relative;
+    top: 5px;
+    left:180px;
+  }
+  .FConsolePagebtn{
+    position: absolute;
+    top: 7px;
+    left: 15px;
+    font-size: 12px;
+    background-color: transparent;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+  }
+  .FConsoleIcon{
+    font-size: 20px;
+    position: absolute;
+    color: white;
+    top: 5px;
+  }
+  .FStatusIcon{
+    font-size: 20px;
+    position: absolute;
+    top: -4.2px;
+    left: -21px;
+  }

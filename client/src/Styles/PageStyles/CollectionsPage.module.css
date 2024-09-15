@@ -1,12 +1,12 @@
 .CollectionPagemainWrapper{
-  width: 100.6%;
+  width: 107.5%;
   height: 100%;
   box-sizing: border-box;
   padding: 0px;
   margin: 0px;
   position: relative;
   top: -19px;
-  left: -9px;
+  left: -100px;
 }
 .CHeadingField{
 position: relative;
@@ -81,6 +81,11 @@ top: 5px;
   border-radius: 5px;
   font-weight: bold;
   background-color: #007bff;
+  color: #fff;
+  cursor: pointer;
+}
+.CSendField:hover ,.CSaveField:hover{
+  background-color: #0056b3;
 }
 .CBodyWrapper{
   width: 100%;

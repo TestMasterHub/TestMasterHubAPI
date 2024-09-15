@@ -28,11 +28,12 @@ async function executeTestScript(testScript, responseData) {
           TMH.assert.equals(JsonData.products[0].id, 1, "Checks id === 1");
         }
       };
-
+      // eslint-disable-next-line
       if (typeof scriptFunctions[testScript] === 'function') {
         scriptFunctions[testScript]();
       } else {
         const sanitizedScript = `try { ${testScript} } catch (e) { console.error("Error in test script:", e); }`;
+        // eslint-disable-next-line
         const testFn = new Function("TMH", "responseData", sanitizedScript);
         testFn(TMH, responseData);
       }

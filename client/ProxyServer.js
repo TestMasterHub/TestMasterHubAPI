@@ -9,7 +9,6 @@ app.use(express.json());
 
 app.post('/api/proxy', async (req, res) => {
   const { method, url, headers, data } = req.body;
-  console.log(method +'\n'+ url +'\n'+headers +'\n'+data );
   try {
     const response = await axios({
       method,
@@ -19,7 +18,8 @@ app.post('/api/proxy', async (req, res) => {
     });
     res.json(response.data);
   } catch (error) {
-    res.status(error.response ? error.response.status : 500).send(error.message);
+    res.status(error.response ? error.response.status : 500).send({"Error":error.code});
+    console.log(error.code);
   }
 });
 
@@ -33,6 +33,7 @@ app.get('/api/proxystatus', async (req, res) => {
     res.status(500).json({
       "message": `${error.message}`
     });
+    console.log(error.code);
   }
 });
 

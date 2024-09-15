@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { useState,useEffect } from "react";
 import MainLayout from "../Layouts/MainLayout";
 import styles from "../Styles/PageStyles/CollectionsPage.module.css";
 import AuthComp from "../Components/RequestBody/AuthComp";
@@ -225,14 +225,6 @@ export default function CollectionPage() {
   const handleTabClick = (tab) => {
     setActiveTab(tab);
   };
-  const openConsole = () => {
-    // Open the console in a new window
-    window.consoleWindow = window.open(
-      "/console",
-      "_blank",
-      "width=800,height=600"
-    );
-  };
 
   // Determine if status code is 2xx (success) or other (error)
   const getStatusClassName = () => {
@@ -247,7 +239,7 @@ export default function CollectionPage() {
   return (
     <div>
       <MainLayout>
-        <div className={styles.CollectionPagemainWrapper}>
+      <div className={styles.CollectionPagemainWrapper}>
           <div className={styles.CHeadingWrapper}>
             <h3 className={styles.CHeadingField}>Collections</h3>
             <div className={styles.FileUploadWrap}>
@@ -408,12 +400,7 @@ export default function CollectionPage() {
               </div>
             </div>
           </div>
-          <div>
-            <button className={styles.PConsolePage} onClick={openConsole}>
-              Open Console
-            </button>
-          </div>
-        </div>
+        </div> 
       </MainLayout>
     </div>
   );

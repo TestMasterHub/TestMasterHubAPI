@@ -93,7 +93,7 @@ export default function HeaderComp({ headers, setHeaders }) {
               </td>
               <td>
                 {index === rows.length - 1 && (
-                  <button onClick={handleAddNew}>Add</button>
+                  <button className={styles.HAddnewbtn} onClick={handleAddNew}>Add</button>
                 )}
               </td>
             </tr>

@@ -1,30 +1,36 @@
 .LayoutMainWrapper {
-    display: grid;
-    grid-template-rows: auto 1fr auto;
-    min-height: 80vh;
-  }
-  
-  .LayoutInnerWrapper {
-    display: grid;
-    grid-template-columns: 200px 1fr;
-  }
-  
-  .LayoutNavBarrWrapper {
-    grid-row: 1;
-    grid-column: 1 / -1;
-  }
-  
-  .LayoutAsideWrapper {
-    grid-row: 2;
-    grid-column: 1;
-  }
-  
-  .LayoutContentWrapper {
-    grid-row: 2;
-    grid-column: 2;
-  }
-  
-  .LayoutFooterWrapper {
-    grid-row: 3;
-    grid-column: 1 / -1;
-  }
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  min-height: 80vh;
+}
+
+.LayoutInnerWrapper {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  transition: all 0.3s ease;
+}
+
+.submenuOpen .LayoutInnerWrapper {
+  grid-template-columns: 320px 1fr;
+}
+
+.LayoutNavBarrWrapper {
+  grid-row: 1;
+  grid-column: 1 / -1;
+}
+
+.LayoutAsideWrapper {
+  grid-row: 2;
+  grid-column: 1;
+  position: relative;
+}
+
+.LayoutContentWrapper {
+  grid-row: 2;
+  grid-column: 2;
+}
+
+.LayoutFooterWrapper {
+  grid-row: 3;
+  grid-column: 1 / -1;
+}

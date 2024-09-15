@@ -116,7 +116,7 @@ export default function ParamsComp({
                 </td>
                 <td className={styles.actions}>
                   {index === queryParams.length - 1 && (
-                    <button onClick={handleAddNew}>Add</button>
+                    <button className={styles.PAddnewbtn} onClick={handleAddNew}>Add</button>
                   )}
                 </td>
               </tr>

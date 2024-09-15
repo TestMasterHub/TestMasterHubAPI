@@ -5,7 +5,7 @@
 }
 
 .ParametersContainer {
-  max-height: 542px;
+  max-height: 515px;
   overflow-y: auto;
 }
 
@@ -42,7 +42,7 @@
   background-color: #f9f9f9;
 }
 
-button {
+.PAddnewbtn {
   background-color: #007bff;
   color: #fff;
   border: none;
@@ -53,7 +53,7 @@ button {
   font-size: 14px;
 }
 
-button:hover {
+.PAddnewbtn:hover {
   background-color: #0056b3;
 }
 

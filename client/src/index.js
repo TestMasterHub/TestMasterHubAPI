@@ -4,7 +4,7 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import './index.css';
 import App from './App';
 import Error from './Pages/Error'
-import ConsoleWindow from './Pages/ConsolePage';
+import ConsoleWindow from './__Tests__/Pages/ConsolePage';
 const router = createBrowserRouter([
   {
     path: "/", // Root path
