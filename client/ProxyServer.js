@@ -9,7 +9,7 @@ app.use(express.json());
 
 app.post('/api/proxy', async (req, res) => {
   const { method, url, headers, data } = req.body;
-  console.log(method +'\n'+ url +'\n'+headers +'\n'+data )
+  console.log(method +'\n'+ url +'\n'+headers +'\n'+data );
   try {
     const response = await axios({
       method,
@@ -20,6 +20,19 @@ app.post('/api/proxy', async (req, res) => {
     res.json(response.data);
   } catch (error) {
     res.status(error.response ? error.response.status : 500).send(error.message);
+  }
+});
+
+// Corrected GET route handler
+app.get('/api/proxystatus', async (req, res) => {
+  try {
+    res.status(200).json({
+      "message": "Online"
+    });
+  } catch (error) {
+    res.status(500).json({
+      "message": `${error.message}`
+    });
   }
 });
 

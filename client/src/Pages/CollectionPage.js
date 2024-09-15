@@ -8,6 +8,7 @@ import APIServer from "../APIFunction/APIServer";
 import ParamsComp from "../Components/RequestBody/ParamsComp";
 import HeaderComp from "../Components/RequestBody/HeaderComp";
 import ScriptsComp from "../Components/RequestBody/ScriptsComp";
+import { generateCollectionJson } from "../Utlis/generateCollectionJson";
 import TMH from "../Utlis/TMH";
 
 window.TMH = TMH;
@@ -53,10 +54,10 @@ export default function CollectionPage() {
     return matches;
   };
   const logRequest = (method, url, requestData, responseData) => {
-    const logs = JSON.parse(localStorage.getItem('requestLogs')) || [];
+    const logs = JSON.parse(localStorage.getItem("requestLogs")) || [];
     const newLog = { method, url, requestData, responseData, open: false }; // "open" state for dropdown
     logs.push(newLog);
-    localStorage.setItem('requestLogs', JSON.stringify(logs));
+    localStorage.setItem("requestLogs", JSON.stringify(logs));
   };
   useEffect(() => {
     const pathParamsKeys = extractPathParams(url);
@@ -86,9 +87,73 @@ export default function CollectionPage() {
     setQueryParams(updatedQueryParams);
   };
 
-  const HandleSavebtn = () => {
-    alert("Demo Save Function");
+  const handleSavebtn = () => {
+    const collectionData = generateCollectionJson({
+      requestType,
+      url,
+      pathParams,
+      queryParams,
+      headers,
+      requestBody,
+      authToken,
+      basicAuth,
+      preRequestScript,
+      testScript,
+    });
+
+    // Convert the collection data to JSON format
+    const collectionJson = JSON.stringify(collectionData, null, 2);
+    const blob = new Blob([collectionJson], { type: "application/json" });
+    const link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.download = `API_Collection_${Date.now()}.json`;
+    link.click();
   };
+
+  const handleFileUpload = (e) => {
+    const file = e.target.files[0];
+    const reader = new FileReader();
+
+    reader.onload = (event) => {
+      try {
+        const importedData = JSON.parse(event.target.result);
+        populateFields(importedData); // Populate fields from JSON data
+      } catch (error) {
+        alert("Invalid JSON file");
+      }
+    };
+
+    reader.readAsText(file);
+  };
+
+  const populateFields = (data) => {
+    setUrl(data.url || "");
+    setRequestType(data.method || "get");
+    setHeaders(data.headers || {});
+    setRequestBody(data.requestBody || "");
+    if (data.auth) {
+      setAuthType(data.auth.type || "Bearer");
+      setAuthToken(data.auth.token || "");
+      setBasicAuth(data.auth.basicAuth || { username: "", password: "" });
+    }
+    setPreRequestScript(data.preRequestScript || "");
+    setTestScript(data.testScript || "");
+    setPathParams(data.pathParams || []);
+    setQueryParams(data.queryParams || []);
+    setDisplayUrl(data.url || "");
+
+    // Save data in local storage
+    localStorage.setItem("importedData", JSON.stringify(data));
+  };
+
+  // On component mount, check if data is in local storage
+  useEffect(() => {
+    const savedData = localStorage.getItem("importedData");
+    if (savedData) {
+      const parsedData = JSON.parse(savedData);
+      populateFields(parsedData);
+    }
+  }, []);
 
   const handleSendbtn = async () => {
     if (!url) {
@@ -98,10 +163,10 @@ export default function CollectionPage() {
     setApiResponse(null);
     setUrlError(false);
     setIsLoading(true);
-  
+
     // Construct the final URL by replacing path and query parameters
     let updatedUrl = url.split("?")[0];
-  
+
     // Replace path parameters in the URL
     pathParams.forEach((param) => {
       if (param.key && param.value) {
@@ -109,7 +174,7 @@ export default function CollectionPage() {
         updatedUrl = updatedUrl.replace(regex, param.value);
       }
     });
-  
+
     // Handle query parameters
     const queryString = queryParams
       .filter((param) => param.key && param.value)
@@ -118,11 +183,11 @@ export default function CollectionPage() {
           `${encodeURIComponent(param.key)}=${encodeURIComponent(param.value)}`
       )
       .join("&");
-  
+
     const finalUrl = queryString ? `${updatedUrl}?${queryString}` : updatedUrl;
-  
+
     console.log("Updated URL after processing:", finalUrl);
-  
+
     try {
       // Send the API request using the constructed URL
       const requestData = {
@@ -134,7 +199,7 @@ export default function CollectionPage() {
         },
         data: requestBody ? JSON.parse(requestBody) : {},
       };
-  
+
       const { apiResponse, status } = await APIServer({
         requestData,
         authToken,
@@ -143,10 +208,10 @@ export default function CollectionPage() {
         preRequestScript,
         testScript,
       });
-  
+
       setApiResponse(apiResponse);
       setStatus(status);
-  
+
       // Log request and response data
       logRequest(requestType, url, requestData, apiResponse);
     } catch (error) {
@@ -156,14 +221,17 @@ export default function CollectionPage() {
       setIsLoading(false);
     }
   };
-  
 
   const handleTabClick = (tab) => {
     setActiveTab(tab);
   };
   const openConsole = () => {
     // Open the console in a new window
-    window.consoleWindow = window.open('/console', '_blank', 'width=800,height=600');
+    window.consoleWindow = window.open(
+      "/console",
+      "_blank",
+      "width=800,height=600"
+    );
   };
 
   // Determine if status code is 2xx (success) or other (error)
@@ -182,6 +250,13 @@ export default function CollectionPage() {
         <div className={styles.CollectionPagemainWrapper}>
           <div className={styles.CHeadingWrapper}>
             <h3 className={styles.CHeadingField}>Collections</h3>
+            <div className={styles.FileUploadWrap}>
+              <input
+                type="file"
+                onChange={handleFileUpload}
+                className={styles.CFileUploadField}
+              />
+            </div>
           </div>
           <div className={styles.CollectionInnerWrapper}>
             <div className={styles.CSearchMainWrapper}>
@@ -217,7 +292,7 @@ export default function CollectionPage() {
                 />
               </div>
               <div className={styles.CSavebtn}>
-                <button className={styles.CSaveField} onClick={HandleSavebtn}>
+                <button className={styles.CSaveField} onClick={handleSavebtn}>
                   Save
                 </button>
               </div>
@@ -334,7 +409,9 @@ export default function CollectionPage() {
             </div>
           </div>
           <div>
-            <button className={styles.PConsolePage} onClick={openConsole}>Open Console</button>
+            <button className={styles.PConsolePage} onClick={openConsole}>
+              Open Console
+            </button>
           </div>
         </div>
       </MainLayout>

@@ -180,3 +180,8 @@ border: 2px solid red;
   top: 85px;
   right: 100px;
 }
+.FileUploadWrap{
+  position: absolute;
+  top: 5px;
+  left: 200px;
+}
