@@ -1,5 +1,5 @@
 import axios from "axios";
-import TMH from '../Utils/TMH'; // Ensure this path is correct
+import TMH from '../Utlis/TMH'; // Ensure this path is correct
 window.TMH = TMH;
 
 async function executePreRequestScript(preRequestScript, requestData) {
