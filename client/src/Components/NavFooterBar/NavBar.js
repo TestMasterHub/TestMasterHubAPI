@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom";
-
 import styles from '../../Styles/NavFooterStyles/NavBar.module.css';
 
 function Navbar() {
@@ -7,10 +6,10 @@ function Navbar() {
         <div className={styles.NavbarMainWrapper}>
             <h2>TestMasterHub</h2>
             <div className={styles.LinkMainWrapper}>
-                <Link to={'/'} className={styles.LinkStyles}>Community</Link>
-                <Link to={'/'} className={styles.LinkStyles}>Resources</Link>
-                <Link to={'/'} className={styles.LinkStyles}>ChangeLog</Link>
-                <Link to={'/'} className={styles.LinkStyles}>Update</Link>
+                <Link to={'/community'} className={styles.LinkStyles} target="_blank" rel="noopener noreferrer">Community</Link>
+                <Link to={'/resources'} className={styles.LinkStyles} target="_blank" rel="noopener noreferrer">Resources</Link>
+                <Link to={'/changelog'} className={styles.LinkStyles} target="_blank" rel="noopener noreferrer">ChangeLog</Link>
+                <Link to={'/'} className={styles.LinkStyles} target="_blank" rel="noopener noreferrer">Update</Link>
             </div>
             <div className={styles.ProfileMainWrapper}>
                 <div className={styles.ProfileIcon}>

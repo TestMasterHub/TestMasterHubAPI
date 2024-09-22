@@ -19,3 +19,12 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
+
+- **set(key, value)**: Saves data with a specific key. If the key already exists, it updates the value.
+- **get(key)**: Retrieves data by key. Returns `null` if the key doesn’t exist.
+- **update(key, value)**: Updates the value of an existing key. Logs a warning if the key does not exist.
+- **delete(key)**: Removes a key-value pair from the database.
+- **clear()**: Removes all data from the temporary database.
+- **getAll()**: Retrieves all data as an object.
+
+This setup provides an easy-to-use temporary database interface, keeping your data organized and accessible. You can expand the functionality further as needed!

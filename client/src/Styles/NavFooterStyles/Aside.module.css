@@ -1,7 +1,7 @@
 /* AsideMainWrapper remains the same */
 .AsideMainWrapper {
     width: 100px;
-    min-height: 87vh;
+    min-height: 88.4vh;
     background-color: black;
     box-sizing: border-box;
     position: relative;
@@ -10,10 +10,14 @@
 /* Link styles */
 .AsideLinkWrapper {
     font-size: 12px;
-    padding: 20px;
+    margin-bottom: 30px;
     position: relative;
-    left: -20px;
+    top: 30px;
 }
+.AsideMenuIcon {
+    margin-right: 10px;
+    font-size: 12px;
+  }
 
 .LinkWrapper {
     text-decoration: none;
@@ -34,3 +38,18 @@
 .AsideSubMenu{
     font-size: 12px;
 }
+.AsideFileLabel {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    color: white;
+  }
+  
+  .AsideFileLabelIcon {
+    margin-left: 5px;
+    font-size: 18px;
+  }
+  
+  .AsideFileUploadField {
+    display: none;
+  }

@@ -3,7 +3,7 @@ import Navbar from ".././Components/NavFooterBar/NavBar";
 import AsideBar from "../Components/Aside/AsideBar";
 import Footer from "../Components/NavFooterBar/Footer";
 import styles from "../Styles/PageLayouts/Layout.module.css";
-function MainLayout({ children }) {
+function MainLayout({ children ,handleFileUpload}) {
   const [isSubmenuOpen, setIsSubmenuOpen] = useState(false);
 
   // This callback will be passed to AsideBar to handle submenu toggle
@@ -18,7 +18,7 @@ function MainLayout({ children }) {
           <Navbar />
         </div>
         <div className={styles.LayoutAsideWrapper}>
-          <AsideBar onSubMenuToggle={handleSubMenuToggle} /> {/* Passing the callback */}
+          <AsideBar onSubMenuToggle={handleSubMenuToggle} handleFileUpload={handleFileUpload}/> {/* Passing the callback */}
         </div>
         <div className={styles.LayoutContentWrapper}>{children}</div>
         <div className={styles.LayoutFooterWrapper}>

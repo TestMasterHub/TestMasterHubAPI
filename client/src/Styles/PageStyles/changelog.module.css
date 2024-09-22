@@ -1,0 +1,42 @@
+.container {
+    padding: 20px;
+    max-width: 80%;
+    margin: auto;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.title {
+    text-align: center;
+    color: #343a40;
+}
+
+.description {
+    font-size: 16px;
+    margin-bottom: 20px;
+    color: #6c757d;
+}
+
+.section {
+    margin-bottom: 20px;
+    padding: 10px;
+    background-color: #ffffff;
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+}
+
+.version {
+    font-size: 18px;
+    font-weight: bold;
+    color: #007bff;
+}
+
+ul {
+    list-style-type: disc;
+    padding-left: 20px;
+}
+
+ul ul {
+    list-style-type: circle;
+}

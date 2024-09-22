@@ -22,7 +22,6 @@ const ConsoleWindow = () => {
       window.removeEventListener('message', handleMessage);
     };
   }, []);
-
   const toggleAccordion = (index) => {
     const updatedLogs = requestLogs.map((log, i) =>
       i === index ? { ...log, open: !log.open } : log
@@ -34,9 +33,10 @@ const ConsoleWindow = () => {
     localStorage.removeItem('requestLogs');
     setRequestLogs([]); // Clear logs from state as well
   };
-  const handleLoadLogs =()=>{
+
+  const handleLoadLogs = () => {
     window.location.reload();
-  }
+  };
 
   return (
     <div className={styles.console_container}>
@@ -48,8 +48,9 @@ const ConsoleWindow = () => {
       {requestLogs.map((log, index) => (
         <div key={index} className={styles.accordion}>
           <div className={styles.accordion_header} onClick={() => toggleAccordion(index)}>
-            <span>{log.method.toUpperCase()}</span>
-            <span>{log.url}</span>
+            <span>{log.method ? log.method.toUpperCase() : 'UNKNOWN METHOD'}</span>
+            <span>{log.url || 'UNKNOWN URL'}</span>
+            <span>{log.status || 'N/A'}</span>
             <span className={styles.toggle_arrow}>{log.open ? '▼' : '►'}</span>
           </div>
           {log.open && (

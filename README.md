@@ -1,8 +1,8 @@
-Here’s a simple and clear README file for your project with emojis and clear instructions:
+Here’s the enhanced README file you provided, with some formatting adjustments for clarity:
 
 ---
 
-# 🚀 **TestMasterHub-Tool** 
+# 🚀 **TestMasterHub-Tool**
 
 An open-source API testing and report-generating tool. Build and manage your API tests effortlessly!
 
@@ -81,6 +81,99 @@ Before you start, make sure you have the following installed:
 3. Click **Send Request** to view the response.
 4. Validate and assert the responses with your custom scripts.
 
+## 💾 **Temporary Database (TempDB)**
+
+TempDB is a simple JavaScript utility for managing a temporary database using `localStorage`. It provides an easy-to-use API to save, update, retrieve, and delete data.
+
+### 📋 **Features**
+
+- **Easy to Use**: Functions like `set`, `get`, `update`, and `delete` make data management straightforward.
+- **Persistent Storage**: Data is stored in the browser's `localStorage`, persisting even after page refreshes.
+- **Flexible**: Store any data type (objects, arrays, strings, etc.) associated with unique keys.
+
+### 📦 **Installation of TempDB**
+
+1. Copy `tempDB.js` into your project directory.
+2. Import it into your JavaScript file.
+
+```javascript
+import tempDB from './tempDB';
+```
+
+### 🛠️ **Usage of TempDB**
+
+- **Set Data**
+
+  ```javascript
+  tempDB.set('key', value);
+  ```
+
+- **Get Data**
+
+  ```javascript
+  const value = tempDB.get('key');
+  ```
+
+- **Update Data**
+
+  ```javascript
+  tempDB.update('key', newValue);
+  ```
+
+- **Delete Data**
+
+  ```javascript
+  tempDB.delete('key');
+  ```
+
+- **Clear the Database**
+
+  ```javascript
+  tempDB.clear();
+  ```
+
+- **Get All Data**
+
+  ```javascript
+  const allData = tempDB.getAll();
+  ```
+
+### 💡 **Example**
+
+Here’s a simple example demonstrating the usage of TempDB:
+
+```javascript
+import tempDB from './tempDB';
+
+// Saving request data
+tempDB.set('requestData', { method: 'GET', url: 'https://api.example.com/data' });
+
+// Retrieving request data
+const requestData = tempDB.get('requestData');
+console.log('Request Data:', requestData);
+
+// Updating response data
+tempDB.set('responseData', { status: 200, body: { message: 'Success' } });
+tempDB.update('responseData', { status: 500, body: { message: 'Error' } });
+
+// Fetching updated response data
+const updatedResponseData = tempDB.get('responseData');
+console.log('Updated Response Data:', updatedResponseData);
+
+// Deleting imported files
+tempDB.set('importedFiles', ['file1.json', 'file2.json']);
+tempDB.delete('importedFiles');
+
+// Checking deleted files
+const deletedFiles = tempDB.get('importedFiles');
+console.log('Deleted Files:', deletedFiles); // Should be null
+
+// Clearing all data
+tempDB.clear();
+const allData = tempDB.getAll();
+console.log('All Data After Clear:', allData); // Should be {}
+```
+
 ## 🔥 **Key Features**
 
 - 📝 Send API requests with custom headers and request bodies.
@@ -89,20 +182,12 @@ Before you start, make sure you have the following installed:
 - 💾 Save and reuse API configurations.
 - 🧑‍💻 Friendly UI for API testing.
 
-## 💡 **Troubleshooting**
-
-- If you encounter any issues with missing dependencies, run:
-
-  ```bash
-  npm install
-  ```
-
-- Ensure no other service is running on port `5000` or `3000`.
-
 ## 📄 **License**
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ---
 
-Enjoy testing your APIs! 😎
+Enjoy testing your APIs and managing your temporary database! 😎
+
+---

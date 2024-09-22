@@ -1,7 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import styles from "../../Styles/NavFooterStyles/Aside.module.css";
-export default function AsideBar({ onSubMenuToggle }) {
+import { FaFolderOpen, FaPlus, FaCogs, FaChartBar, FaTasks, FaWrench } from "react-icons/fa";
+import { CiImport } from "react-icons/ci";
+export default function AsideBar({ onSubMenuToggle, handleFileUpload }) {
   const [activeMenu, setActiveMenu] = useState(null);
 
   // Handle menu click to show the submenu
@@ -38,33 +40,51 @@ export default function AsideBar({ onSubMenuToggle }) {
   return (
     <div className={styles.AsideMainWrapper}>
       <div className={styles.OptionWrapper}>
+      <div className={styles.AsideLinkWrapper}>
+          <label htmlFor="fileInput" className={styles.AsideFileLabel}>
+            <CiImport className={styles.AsideMenuIcon} />
+            Import
+          </label>
+          <input
+            type="file"
+            id="fileInput"
+            onChange={handleFileUpload}
+            className={styles.AsideFileUploadField}
+          />
+        </div>
         <div className={styles.AsideLinkWrapper}>
           <Link className={styles.LinkWrapper} onClick={() => handleMenuClick("Collection")}>
+          <FaFolderOpen className={styles.AsideMenuIcon} />
             Collection
           </Link>
         </div>
         <div className={styles.AsideLinkWrapper}>
           <Link className={styles.LinkWrapper} onClick={() => handleMenuClick("Environments")}>
+          <FaCogs className={styles.AsideMenuIcon} />
             Environments
           </Link>
         </div>
         <div className={styles.AsideLinkWrapper}>
           <Link className={styles.LinkWrapper} onClick={() => handleMenuClick("Build")}>
+          <FaPlus className={styles.AsideMenuIcon} />
             Build
           </Link>
         </div>
         <div className={styles.AsideLinkWrapper}>
           <Link className={styles.LinkWrapper} onClick={() => handleMenuClick("Reports")}>
+          <FaChartBar className={styles.AsideMenuIcon} />
             Reports
           </Link>
         </div>
         <div className={styles.AsideLinkWrapper}>
           <Link className={styles.LinkWrapper} onClick={() => handleMenuClick("Monitors")}>
+          <FaTasks className={styles.AsideMenuIcon} />
             Monitors
           </Link>
         </div>
         <div className={styles.AsideLinkWrapper}>
           <Link className={styles.LinkWrapper} onClick={() => handleMenuClick("Settings")}>
+          <FaWrench className={styles.AsideMenuIcon} />
             Settings
           </Link>
         </div>

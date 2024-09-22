@@ -1,0 +1,41 @@
+.container {
+    padding: 20px;
+    max-width: 80%;
+    margin: 0 auto;
+    font-family: Arial, sans-serif;
+}
+
+.title {
+    font-size: 2.5em;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.description {
+    font-size: 1.2em;
+    color: #555;
+    margin-bottom: 20px;
+}
+
+.subtitle {
+    font-size: 2em;
+    color: #007BFF;
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+.text {
+    font-size: 1.1em;
+    color: #444;
+    margin-bottom: 15px;
+}
+
+.list {
+    list-style-type: disc;
+    margin-left: 20px;
+    color: #444;
+}
+
+.list li {
+    margin-bottom: 10px;
+}

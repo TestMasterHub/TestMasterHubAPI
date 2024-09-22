@@ -10,7 +10,9 @@ const AuthComp = ({ authToken, setAuthToken, requestType, setRequestType, basicA
           name="RAuthType"
           className={styles.RAuthList}
           value={requestType}
-          onChange={(e) => setRequestType(e.target.value)}
+          onChange={(e) => {
+            setRequestType(e.target.value);
+          }}
         >
           <option value="Bearer">Bearer Token</option>
           <option value="Basic">Basic Auth</option>

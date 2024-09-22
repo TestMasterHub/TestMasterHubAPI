@@ -10,7 +10,11 @@ export default function ParamsComp({
   queryParams,
   setQueryParams,
 }) {
-  // Handle adding a new query parameter
+  // console.log(onParamsChange,
+  //   pathParams,
+  //   setPathParams,
+  //   queryParams,
+  //   setQueryParams,)
   const handleAddNew = () => {
     if (pathParams.length + queryParams.length < 20) {
       setQueryParams([

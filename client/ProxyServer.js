@@ -18,8 +18,8 @@ app.post('/api/proxy', async (req, res) => {
     });
     res.json(response.data);
   } catch (error) {
-    res.status(error.response ? error.response.status : 500).send({"Error":error.code});
-    console.log(error.code);
+    res.status(error.response ? error.response.status : 500).send({"Error":error.response.statusText});
+    console.log(error);
   }
 });
 
@@ -33,7 +33,7 @@ app.get('/api/proxystatus', async (req, res) => {
     res.status(500).json({
       "message": `${error.message}`
     });
-    console.log(error.code);
+    console.log(error);
   }
 });
 

@@ -5,7 +5,6 @@ import { VscDebugConsole } from "react-icons/vsc";
 import { RiBaseStationLine } from "react-icons/ri";
 function Footer() {
   const [proxyStatus, setProxyStatus] = useState(null);
-  // eslint-disable-next-line
   const [error, setError] = useState(null);
 
   useEffect(() => {
@@ -31,7 +30,6 @@ function Footer() {
       "width=800,height=600"
     );
   };
-
   return (
     <div className={styles.FooterMainWrapper}>
       <p className={styles.FproxyStatud}>
