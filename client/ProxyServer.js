@@ -18,7 +18,9 @@ app.post('/api/proxy', async (req, res) => {
     });
     res.json(response.data);
   } catch (error) {
-    res.status(error.response ? error.response.status : 500).send({"Error":error.response.statusText});
+    const status = error.response?.status || 500;
+    const message = error.response?.statusText || error.message || 'Internal Server Error';
+    res.status(status).send({ "Error": message });
     console.log(error);
   }
 });
