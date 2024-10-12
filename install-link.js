@@ -21,8 +21,12 @@ function executeCommand(command, description) {
 // Main function to run npm install and npm link
 (async () => {
     try {
+        // Ensure npm dependencies are linked
         await executeCommand('npm link', 'npm link');
-        await executeCommand('npm start', 'TestMasterHub-tool at localhost:8888 & Proxy Server at localhost:5000');
+        
+        // Start all services: Frontend, Proxy, and Internal API
+        await executeCommand('npm start', 'TestMasterHub-tool with all services');
+        
         console.log('Project is ready to use!');
     } catch (error) {
         console.error('An error occurred:', error.message);

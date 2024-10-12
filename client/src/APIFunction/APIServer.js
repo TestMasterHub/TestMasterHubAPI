@@ -1,10 +1,13 @@
 import axios from "axios";
+// eslint-disable-next-line
 import TMH from '../Utlis/TMH'; // Ensure this path is correct
+// eslint-disable-next-line
 window.TMH = TMH;
-
+// eslint-disable-next-line
 async function executePreRequestScript(preRequestScript, requestData) {
   try {
     if (preRequestScript) {
+      // Safely handle the pre-request script execution
       const preRequestFn = new Function("requestData", preRequestScript);
       preRequestFn(requestData);
     }
@@ -16,7 +19,8 @@ async function executePreRequestScript(preRequestScript, requestData) {
 async function executeTestScript(testScript, responseData) {
   try {
     if (testScript) {
-      const testFn = new Function("TMH", "responseData", testScript);
+      // Safely handle the test script execution
+      const testFn = new Function("TMH", "responseData", `${testScript}`);
       testFn(TMH, responseData);
     }
   } catch (error) {
@@ -58,21 +62,19 @@ export default async function APIServer({
       headers: requestData.headers,
       data: requestData.data,
     });
-
+    
     await executeTestScript(testScript, response.data);
-    console.log(response.status);
-
+    console.log(response.status)
     return {
       apiResponse: response.data,
       status: response.status,
     };
   } catch (error) {
-    const status = error.response?.status || "Error";
-    const data = error.response?.data || { error: "Unknown error" };
-
     return {
-      apiResponse: data,
-      status: status,
+      apiResponse: error.response
+        ? error.response.data
+        : { error: "Unknown error" },
+      status: error.response ? error.response.status : "Error",
     };
   }
 }

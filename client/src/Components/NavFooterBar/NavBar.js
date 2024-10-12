@@ -4,7 +4,7 @@ import styles from '../../Styles/NavFooterStyles/NavBar.module.css';
 function Navbar() {
     return (
         <div className={styles.NavbarMainWrapper}>
-            <h2>TestMasterHub</h2>
+            <h2>TestMasterHub-Test</h2>
             <div className={styles.LinkMainWrapper}>
                 <Link to={'/community'} className={styles.LinkStyles} target="_blank" rel="noopener noreferrer">Community</Link>
                 <Link to={'/resources'} className={styles.LinkStyles} target="_blank" rel="noopener noreferrer">Resources</Link>

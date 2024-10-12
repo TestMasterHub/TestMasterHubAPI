@@ -3,7 +3,7 @@ import Navbar from ".././Components/NavFooterBar/NavBar";
 import AsideBar from "../Components/Aside/AsideBar";
 import Footer from "../Components/NavFooterBar/Footer";
 import styles from "../Styles/PageLayouts/Layout.module.css";
-function MainLayout({ children ,handleFileUpload}) {
+function MainLayout({ children, handleFileUpload ,collections,handleRequestClick}) {
   const [isSubmenuOpen, setIsSubmenuOpen] = useState(false);
 
   // This callback will be passed to AsideBar to handle submenu toggle
@@ -12,17 +12,26 @@ function MainLayout({ children ,handleFileUpload}) {
   };
 
   return (
-    <div className={`${styles.LayoutMainWrapper} ${isSubmenuOpen ? styles.submenuOpen : ""}`}>
+    <div
+      className={`${styles.LayoutMainWrapper} ${
+        isSubmenuOpen ? styles.submenuOpen : ""
+      }`}
+    >
       <div className={styles.LayoutInnerWrapper}>
         <div className={styles.LayoutNavBarrWrapper}>
           <Navbar />
         </div>
         <div className={styles.LayoutAsideWrapper}>
-          <AsideBar onSubMenuToggle={handleSubMenuToggle} handleFileUpload={handleFileUpload}/> {/* Passing the callback */}
+          <AsideBar
+            onSubMenuToggle={handleSubMenuToggle}
+            handleFileUpload={handleFileUpload}
+            collections={collections || []} // Ensure it's always an array
+            onRequestClick={handleRequestClick}
+          />
         </div>
         <div className={styles.LayoutContentWrapper}>{children}</div>
         <div className={styles.LayoutFooterWrapper}>
-        <Footer />
+          <Footer />
         </div>
       </div>
     </div>

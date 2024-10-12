@@ -1,0 +1,50 @@
+.collectionsContainer {
+    padding: 20px;
+  }
+  
+  .newCollectionForm {
+    margin-bottom: 20px;
+  }
+  
+  .newCollectionInput {
+    padding: 8px;
+    margin-right: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .newCollectionButton {
+    padding: 8px 16px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .collectionList {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .collectionItem {
+    margin-bottom: 20px;
+  }
+  
+  .requestList {
+    list-style-type: none;
+    padding-left: 20px;
+  }
+  
+  .requestItem {
+    margin-bottom: 5px;
+  }
+  
+  .requestLink {
+    text-decoration: none;
+    color: #007bff;
+  }
+  
+  .requestLink:hover {
+    text-decoration: underline;
+  }

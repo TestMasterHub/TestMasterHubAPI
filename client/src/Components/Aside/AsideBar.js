@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import styles from "../../Styles/NavFooterStyles/Aside.module.css";
 import { FaFolderOpen, FaPlus, FaCogs, FaChartBar, FaTasks, FaWrench } from "react-icons/fa";
 import { CiImport } from "react-icons/ci";
-export default function AsideBar({ onSubMenuToggle, handleFileUpload }) {
-  const [activeMenu, setActiveMenu] = useState(null);
+import TMHls from '../../Utlis/LocalDB';
 
+export default function AsideBar({ onSubMenuToggle, handleFileUpload, collections, onRequestClick }) {
+  window.TMHls = TMHls;
+  const [activeMenu, setActiveMenu] = useState(null);
+  const navigate = useNavigate();
   // Handle menu click to show the submenu
   const handleMenuClick = (menu) => {
     const newActiveMenu = activeMenu === menu ? null : menu;
@@ -21,7 +24,36 @@ export default function AsideBar({ onSubMenuToggle, handleFileUpload }) {
   const getSubmenuOptions = (menu) => {
     switch (menu) {
       case "Collection":
-        return ["Create Collection", "Manage Collections"];
+        return (
+          <div className={styles.SubMenuWrapper}>
+            <p className={styles.SubmenuItem} onClick={() => createNewCollection()}>
+              <FaPlus className={styles.SubmenuIcon} /> Create Collection
+            </p>
+            <div className={styles.SubMenuCollections}>
+              <h4>Existing Collections:</h4>
+              {collections && collections.length > 0 ? (
+                collections.map((collection, index) => (
+                  <div key={index} className={styles.CollectionItem}>
+                    <p onClick={() => handleCollectionClick(collection.id)}>
+                      {collection.name}
+                    </p>
+                    {collection.requests && collection.requests.length > 0 ? (
+                      collection.requests.map((request, idx) => (
+                        <div key={idx} className={styles.RequestItem}>
+                          <p onClick={() => onRequestClick(request)}>{request.name}</p>
+                        </div>
+                      ))
+                    ) : (
+                      <p>No requests found in this collection</p>
+                    )}
+                  </div>
+                ))
+              ) : (
+                <p>No collections available</p>
+              )}
+            </div>
+          </div>
+        );
       case "Environments":
         return ["Manage Environments", "Add Environment"];
       case "Build":
@@ -36,11 +68,27 @@ export default function AsideBar({ onSubMenuToggle, handleFileUpload }) {
         return [];
     }
   };
+  
+
+  // Handle creating a new collection
+  const createNewCollection = () => {
+    const newCollection = prompt("Enter Collection Name:");
+    if (newCollection) {
+      TMHls.set('collectionname',newCollection)
+      navigate(`/collections/${newCollection}`);
+    }
+  };
+
+  // Handle clicking on an individual collection
+  const handleCollectionClick = (collectionId) => {
+    console.log("Load Collection:", collectionId);
+    // Logic to load the collection based on ID
+  };
 
   return (
     <div className={styles.AsideMainWrapper}>
       <div className={styles.OptionWrapper}>
-      <div className={styles.AsideLinkWrapper}>
+        <div className={styles.AsideLinkWrapper}>
           <label htmlFor="fileInput" className={styles.AsideFileLabel}>
             <CiImport className={styles.AsideMenuIcon} />
             Import
@@ -50,52 +98,50 @@ export default function AsideBar({ onSubMenuToggle, handleFileUpload }) {
             id="fileInput"
             onChange={handleFileUpload}
             className={styles.AsideFileUploadField}
+            accept=".json"
           />
         </div>
         <div className={styles.AsideLinkWrapper}>
           <Link className={styles.LinkWrapper} onClick={() => handleMenuClick("Collection")}>
-          <FaFolderOpen className={styles.AsideMenuIcon} />
+            <FaFolderOpen className={styles.AsideMenuIcon} />
             Collection
           </Link>
         </div>
         <div className={styles.AsideLinkWrapper}>
           <Link className={styles.LinkWrapper} onClick={() => handleMenuClick("Environments")}>
-          <FaCogs className={styles.AsideMenuIcon} />
+            <FaCogs className={styles.AsideMenuIcon} />
             Environments
           </Link>
         </div>
         <div className={styles.AsideLinkWrapper}>
           <Link className={styles.LinkWrapper} onClick={() => handleMenuClick("Build")}>
-          <FaPlus className={styles.AsideMenuIcon} />
+            <FaPlus className={styles.AsideMenuIcon} />
             Build
           </Link>
         </div>
         <div className={styles.AsideLinkWrapper}>
           <Link className={styles.LinkWrapper} onClick={() => handleMenuClick("Reports")}>
-          <FaChartBar className={styles.AsideMenuIcon} />
+            <FaChartBar className={styles.AsideMenuIcon} />
             Reports
           </Link>
         </div>
         <div className={styles.AsideLinkWrapper}>
           <Link className={styles.LinkWrapper} onClick={() => handleMenuClick("Monitors")}>
-          <FaTasks className={styles.AsideMenuIcon} />
+            <FaTasks className={styles.AsideMenuIcon} />
             Monitors
           </Link>
         </div>
         <div className={styles.AsideLinkWrapper}>
           <Link className={styles.LinkWrapper} onClick={() => handleMenuClick("Settings")}>
-          <FaWrench className={styles.AsideMenuIcon} />
+            <FaWrench className={styles.AsideMenuIcon} />
             Settings
           </Link>
         </div>
       </div>
+
       {activeMenu && (
         <div className={`${styles.AsiseSubOption} ${activeMenu ? styles.open : ""}`}>
-          {getSubmenuOptions(activeMenu).map((submenu, index) => (
-            <div key={index} className={styles.SubmenuItem}>
-              <p className={styles.AsideSubMenu}>{submenu}</p>
-            </div>
-          ))}
+          {getSubmenuOptions(activeMenu)}
         </div>
       )}
     </div>

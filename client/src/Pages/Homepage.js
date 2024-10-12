@@ -1,10 +1,8 @@
-import CollectionPage from "../Pages/CollectionPage";
-import TabsComponent from "../Components/NavFooterBar/TabsComponent";
+import CollectionPage from "./RequestEditorpage";
 function Homepage() {
   return (
     <div>
       <CollectionPage />
-      {/* <TabsComponent /> */}
     </div>
   );
 }

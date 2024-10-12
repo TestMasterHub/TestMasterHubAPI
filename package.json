@@ -7,9 +7,10 @@
     "testmasterhub-tool": "./bin/www"
   },
   "scripts": {
-    "start": "npm-run-all --parallel server proxy",
+    "start": "npm-run-all --parallel server proxy InternalAPI",
     "server": "node lib/server.js",
     "proxy": "node client/ProxyServer.js",
+    "InternalAPI": "node client/InternalServer.js",
     "build": "cd client && npm run build"
   },
   "dependencies": {

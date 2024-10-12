@@ -16,7 +16,7 @@ function Footer() {
         setProxyStatus(response.data);
       } catch (error) {
         console.error("Error fetching proxy status:", error);
-        setError("Failed to fetch proxy status");
+        setError(error.message);
       }
     };
 
@@ -34,7 +34,7 @@ function Footer() {
     <div className={styles.FooterMainWrapper}>
       <p className={styles.FproxyStatud}>
         {<RiBaseStationLine className={styles.FStatusIcon}/>}
-        {proxyStatus ? proxyStatus.message : "Offline"}
+        {proxyStatus ? proxyStatus.message : `{${error}}`}
       </p>
       <div className={styles.FConsolePage}>
         <VscDebugConsole className={styles.FConsoleIcon} />
