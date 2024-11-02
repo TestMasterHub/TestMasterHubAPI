@@ -1,12 +1,27 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import styles from "../../Styles/NavFooterStyles/Aside.module.css";
-import { FaFolderOpen, FaPlus, FaCogs, FaChartBar, FaTasks, FaWrench } from "react-icons/fa";
+import {
+  FaFolderOpen,
+  FaPlus,
+  FaCogs,
+  FaChartBar,
+  FaTasks,
+  FaWrench,
+} from "react-icons/fa";
 import { CiImport } from "react-icons/ci";
-import TMHls from '../../Utlis/LocalDB';
+import TMHls from "../../Utlis/LocalDB";
 
-export default function AsideBar({ onSubMenuToggle, handleFileUpload, collections, onRequestClick }) {
+export default function AsideBar({
+  onSubMenuToggle,
+  handleFileUpload,
+  collections,
+  onRequestClick,
+}) {
   window.TMHls = TMHls;
+  //Feature flag to control the aside menu options
+  const Aside_Feature_Flag = false;
+
   const [activeMenu, setActiveMenu] = useState(null);
   const navigate = useNavigate();
   // Handle menu click to show the submenu
@@ -26,7 +41,10 @@ export default function AsideBar({ onSubMenuToggle, handleFileUpload, collection
       case "Collection":
         return (
           <div className={styles.SubMenuWrapper}>
-            <p className={styles.SubmenuItem} onClick={() => createNewCollection()}>
+            <p
+              className={styles.SubmenuItem}
+              onClick={() => createNewCollection()}
+            >
               <FaPlus className={styles.SubmenuIcon} /> Create Collection
             </p>
             <div className={styles.SubMenuCollections}>
@@ -40,7 +58,9 @@ export default function AsideBar({ onSubMenuToggle, handleFileUpload, collection
                     {collection.requests && collection.requests.length > 0 ? (
                       collection.requests.map((request, idx) => (
                         <div key={idx} className={styles.RequestItem}>
-                          <p onClick={() => onRequestClick(request)}>{request.name}</p>
+                          <p onClick={() => onRequestClick(request)}>
+                            {request.name}
+                          </p>
                         </div>
                       ))
                     ) : (
@@ -68,13 +88,12 @@ export default function AsideBar({ onSubMenuToggle, handleFileUpload, collection
         return [];
     }
   };
-  
 
   // Handle creating a new collection
   const createNewCollection = () => {
     const newCollection = prompt("Enter Collection Name:");
     if (newCollection) {
-      TMHls.set('collectionname',newCollection)
+      TMHls.set("collectionname", newCollection);
       navigate(`/collections/${newCollection}`);
     }
   };
@@ -101,46 +120,80 @@ export default function AsideBar({ onSubMenuToggle, handleFileUpload, collection
             accept=".json"
           />
         </div>
-        <div className={styles.AsideLinkWrapper}>
-          <Link className={styles.LinkWrapper} onClick={() => handleMenuClick("Collection")}>
-            <FaFolderOpen className={styles.AsideMenuIcon} />
-            Collection
-          </Link>
-        </div>
-        <div className={styles.AsideLinkWrapper}>
-          <Link className={styles.LinkWrapper} onClick={() => handleMenuClick("Environments")}>
-            <FaCogs className={styles.AsideMenuIcon} />
-            Environments
-          </Link>
-        </div>
-        <div className={styles.AsideLinkWrapper}>
-          <Link className={styles.LinkWrapper} onClick={() => handleMenuClick("Build")}>
-            <FaPlus className={styles.AsideMenuIcon} />
-            Build
-          </Link>
-        </div>
-        <div className={styles.AsideLinkWrapper}>
-          <Link className={styles.LinkWrapper} onClick={() => handleMenuClick("Reports")}>
-            <FaChartBar className={styles.AsideMenuIcon} />
-            Reports
-          </Link>
-        </div>
-        <div className={styles.AsideLinkWrapper}>
-          <Link className={styles.LinkWrapper} onClick={() => handleMenuClick("Monitors")}>
-            <FaTasks className={styles.AsideMenuIcon} />
-            Monitors
-          </Link>
-        </div>
-        <div className={styles.AsideLinkWrapper}>
-          <Link className={styles.LinkWrapper} onClick={() => handleMenuClick("Settings")}>
-            <FaWrench className={styles.AsideMenuIcon} />
-            Settings
-          </Link>
-        </div>
+        {Aside_Feature_Flag && (
+          <div className={styles.AsideLinkWrapper}>
+            <Link
+              className={styles.LinkWrapper}
+              onClick={() => handleMenuClick("Collection")}
+            >
+              <FaFolderOpen className={styles.AsideMenuIcon} />
+              Collection
+            </Link>
+          </div>
+        )}
+        {Aside_Feature_Flag && (
+          <div className={styles.AsideLinkWrapper}>
+            <Link
+              className={styles.LinkWrapper}
+              onClick={() => handleMenuClick("Environments")}
+            >
+              <FaCogs className={styles.AsideMenuIcon} />
+              Environments
+            </Link>
+          </div>
+        )}
+        {Aside_Feature_Flag && (
+          <div className={styles.AsideLinkWrapper}>
+            <Link
+              className={styles.LinkWrapper}
+              onClick={() => handleMenuClick("Build")}
+            >
+              <FaPlus className={styles.AsideMenuIcon} />
+              Build
+            </Link>
+          </div>
+        )}
+        {Aside_Feature_Flag && (
+          <div className={styles.AsideLinkWrapper}>
+            <Link
+              className={styles.LinkWrapper}
+              onClick={() => handleMenuClick("Reports")}
+            >
+              <FaChartBar className={styles.AsideMenuIcon} />
+              Reports
+            </Link>
+          </div>
+        )}
+        {Aside_Feature_Flag && (
+          <div className={styles.AsideLinkWrapper}>
+            <Link
+              className={styles.LinkWrapper}
+              onClick={() => handleMenuClick("Monitors")}
+            >
+              <FaTasks className={styles.AsideMenuIcon} />
+              Monitors
+            </Link>
+          </div>
+        )}
+        {Aside_Feature_Flag && (
+          <div className={styles.AsideLinkWrapper}>
+            <Link
+              className={styles.LinkWrapper}
+              onClick={() => handleMenuClick("Settings")}
+            >
+              <FaWrench className={styles.AsideMenuIcon} />
+              Settings
+            </Link>
+          </div>
+        )}
       </div>
 
       {activeMenu && (
-        <div className={`${styles.AsiseSubOption} ${activeMenu ? styles.open : ""}`}>
+        <div
+          className={`${styles.AsiseSubOption} ${
+            activeMenu ? styles.open : ""
+          }`}
+        >
           {getSubmenuOptions(activeMenu)}
         </div>
       )}
