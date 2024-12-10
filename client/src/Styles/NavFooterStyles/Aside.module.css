@@ -1,58 +1,58 @@
 /* AsideMainWrapper remains the same */
 .AsideMainWrapper {
-    width: 100px;
-    min-height: 88.4vh;
-    background-color: black;
-    box-sizing: border-box;
-    position: relative;
+  width: 100px;
+  min-height: 88.4vh;
+  background-color: black;
+  box-sizing: border-box;
+  position: relative;
 }
 
 /* Link styles */
 .AsideLinkWrapper {
-    font-size: 12px;
-    margin-bottom: 30px;
-    position: relative;
-    top: 30px;
+  font-size: 12px;
+  margin-bottom: 30px;
+  position: relative;
+  top: 30px;
 }
 .AsideMenuIcon {
-    margin-right: 10px;
-    font-size: 12px;
-  }
+  margin-right: 10px;
+  font-size: 12px;
+}
 
 .LinkWrapper {
-    text-decoration: none;
-    color: white;
+  text-decoration: none;
+  color: white;
 }
 
-.AsiseSubOption {
-    width: 120px;
-    height: 100%;
-    background-color: black;
-    color: white;
-    position: absolute;
-    left:100px;
-    top: 0;
-    z-index: 10000;
-    transition: margin-left 0.3s;
+.AsideSubOption {
+  width: 160px;
+  height: 100%;
+  background-color: black;
+  color: white;
+  position: absolute;
+  left: 100px;
+  top: 0;
+  z-index: 10000;
+  transition: margin-left 0.3s;
 }
-.AsideSubMenu{
-    font-size: 12px;
+.AsideSubMenu {
+  font-size: 12px;
 }
 .AsideFileLabel {
-    display: flex;
-    align-items: center;
-    cursor: pointer;
-    color: white;
-  }
-  
-  .AsideFileLabelIcon {
-    margin-left: 5px;
-    font-size: 18px;
-  }
-  
-  .AsideFileUploadField {
-    display: none;
-  }
-  .SubMenuWrapper{
-    font-size: 10px;
-  }
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  color: white;
+}
+
+.AsideFileLabelIcon {
+  margin-left: 5px;
+  font-size: 18px;
+}
+
+.AsideFileUploadField {
+  display: none;
+}
+.SubMenuWrapper {
+  font-size: 10px;
+}

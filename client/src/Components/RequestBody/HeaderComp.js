@@ -3,10 +3,34 @@ import styles from "../../Styles/RequestBody/HeaderComp.module.css";
 
 export default function HeaderComp({ headers, setHeaders }) {
   const [rows, setRows] = useState([
-    { key: "Accept-Encoding", value: "gzip, deflate, br", description: "", checked: true, disabled: true },
-    { key: "User-Agent", value: "TestMasterHub/1.0 (Windows NT 10.0; Win64; x64)", description: "", checked: true, disabled: true },
-    { key: "Accept", value: "application/json", description: "", checked: true, disabled: true },
-    { key: "Connection", value: "keep-alive", description: "", checked: true, disabled: true }
+    {
+      key: "Accept-Encoding",
+      value: "gzip, deflate, br",
+      description: "",
+      checked: true,
+      disabled: true,
+    },
+    {
+      key: "User-Agent",
+      value: "TestMasterHub/1.0 (Windows NT 10.0; Win64; x64)",
+      description: "",
+      checked: true,
+      disabled: true,
+    },
+    {
+      key: "Accept",
+      value: "application/json",
+      description: "",
+      checked: true,
+      disabled: true,
+    },
+    {
+      key: "Connection",
+      value: "keep-alive",
+      description: "",
+      checked: true,
+      disabled: true,
+    },
   ]);
 
   const maxRows = 20;
@@ -27,12 +51,22 @@ export default function HeaderComp({ headers, setHeaders }) {
 
   const handleAddNew = () => {
     if (rows.length < maxRows) {
-      setRows([...rows, { key: "", value: "", description: "", checked: false, disabled: false }]);
+      setRows([
+        ...rows,
+        {
+          key: "",
+          value: "",
+          description: "",
+          checked: false,
+          disabled: false,
+        },
+      ]);
     } else {
       alert("You cannot add more than 16 rows.");
     }
   };
 
+  // Only update headers if rows produce a new headers object
   useEffect(() => {
     const updatedHeaders = rows.reduce((acc, row) => {
       if (row.checked && row.key.trim() && row.value.trim()) {
@@ -40,8 +74,12 @@ export default function HeaderComp({ headers, setHeaders }) {
       }
       return acc;
     }, {});
-    setHeaders(updatedHeaders);
-  }, [rows, setHeaders]);
+
+    // Avoid calling setHeaders if headers haven't changed
+    if (JSON.stringify(updatedHeaders) !== JSON.stringify(headers)) {
+      setHeaders(updatedHeaders);
+    }
+  }, [rows, headers, setHeaders]);
 
   return (
     <div className={styles.PMainWrapper}>
@@ -64,7 +102,9 @@ export default function HeaderComp({ headers, setHeaders }) {
                   className={styles.PtableCheckBoxWrap}
                   type="checkbox"
                   checked={row.checked}
-                  onChange={(e) => handleCheckboxChange(index, e.target.checked)}
+                  onChange={(e) =>
+                    handleCheckboxChange(index, e.target.checked)
+                  }
                 />
               </td>
               <td>
@@ -72,7 +112,9 @@ export default function HeaderComp({ headers, setHeaders }) {
                   className={row.disabled ? styles.disabledInput : ""}
                   value={row.key}
                   disabled={row.disabled}
-                  onChange={(e) => handleInputChange(index, "key", e.target.value)}
+                  onChange={(e) =>
+                    handleInputChange(index, "key", e.target.value)
+                  }
                 />
               </td>
               <td>
@@ -80,7 +122,9 @@ export default function HeaderComp({ headers, setHeaders }) {
                   className={row.disabled ? styles.disabledInput : ""}
                   value={row.value}
                   disabled={row.disabled}
-                  onChange={(e) => handleInputChange(index, "value", e.target.value)}
+                  onChange={(e) =>
+                    handleInputChange(index, "value", e.target.value)
+                  }
                 />
               </td>
               <td>
@@ -88,12 +132,16 @@ export default function HeaderComp({ headers, setHeaders }) {
                   className={row.disabled ? styles.disabledInput : ""}
                   value={row.description}
                   disabled={row.disabled}
-                  onChange={(e) => handleInputChange(index, "description", e.target.value)}
+                  onChange={(e) =>
+                    handleInputChange(index, "description", e.target.value)
+                  }
                 />
               </td>
               <td>
                 {index === rows.length - 1 && (
-                  <button className={styles.HAddnewbtn} onClick={handleAddNew}>Add</button>
+                  <button className={styles.HAddnewbtn} onClick={handleAddNew}>
+                    Add
+                  </button>
                 )}
               </td>
             </tr>

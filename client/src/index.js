@@ -4,12 +4,19 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import "./index.css";
 import App from "./App";
 import Error from "./Pages/Error";
-import ConsoleWindow from "./__Tests__/Pages/ConsolePage";
-import Resources from "./__Tests__/Pages/Resources";
-import Changelog from "./__Tests__/Pages/Changelog";
-import Community from "./__Tests__/Pages/Community";
-import CollectionPage from "./__Tests__/Pages/CollectionPage";
-import RequestEditorpage from "./__Tests__/Pages/RequestEditorpage";
+// import ConsoleWindow from "./__Tests__/Pages/ConsolePage";
+// import Resources from "./__Tests__/Pages/Resources";
+// import Changelog from "./__Tests__/Pages/Changelog";
+// import Community from "./__Tests__/Pages/Community";
+// import CollectionPage from "./__Tests__/Pages/CollectionPage";
+// import RequestEditorpage from "./__Tests__/Pages/RequestEditorpage";
+
+import ConsoleWindow from "./Pages/ConsolePage";
+import Resources from "./Pages/Resources";
+import Changelog from "./Pages/Changelog";
+import Community from "./Pages/Community";
+import CollectionPage from "./Pages/CollectionPage";
+import RequestEditorpage from "./Pages/RequestEditorpage";
 
 const router = createBrowserRouter([
   {
@@ -44,6 +51,11 @@ const router = createBrowserRouter([
   },
   {
     path: "/collections/:collectionName/new-request",
+    element: <RequestEditorpage />,
+    errorElement: <Error />,
+  },
+  {
+    path: "/collections/:collectionName/request/:id",
     element: <RequestEditorpage />,
     errorElement: <Error />,
   },

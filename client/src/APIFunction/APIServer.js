@@ -1,6 +1,6 @@
 import axios from "axios";
 // eslint-disable-next-line
-import TMH from '../Utlis/TMH'; // Ensure this path is correct
+import TMH from "../Utlis/TMH"; // Ensure this path is correct
 // eslint-disable-next-line
 window.TMH = TMH;
 // eslint-disable-next-line
@@ -37,6 +37,7 @@ export default async function APIServer({
   testScript,
 }) {
   try {
+    console.log("Request Data:", requestData);
     await executePreRequestScript(preRequestScript, requestData);
 
     // Add appropriate Authorization header based on requestType
@@ -62,9 +63,9 @@ export default async function APIServer({
       headers: requestData.headers,
       data: requestData.data,
     });
-    
+
     await executeTestScript(testScript, response.data);
-    console.log(response.status)
+    console.log(response.status);
     return {
       apiResponse: response.data,
       status: response.status,

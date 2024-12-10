@@ -1,0 +1,83 @@
+.CollectionList {
+  width: 100%;
+}
+
+.collection-container {
+  border-top: 1px solid #e0e0e0;
+  overflow: hidden;
+}
+
+.collection-header {
+  padding: 1px;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  cursor: pointer;
+}
+
+.collection-header:hover {
+  background: rgb(17, 17, 17);
+}
+
+.dropdown-icon {
+  color: #666;
+  font-size: 22px;
+  margin-left: -1px;
+  margin-right: 5px;
+  width: 20px;
+  display: inline-block;
+}
+
+.collection-name {
+  font-weight: 600;
+  font-size: 13px;
+  margin-left: -19px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  flex: 1;
+}
+
+.requests-container {
+  padding: 5px;
+}
+
+.request-group {
+  border-top: 1px solid #e0e0e0;
+  overflow: hidden;
+}
+
+.request-header {
+  padding: 8px 5px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+}
+
+.request-header:hover {
+  background: rgb(17, 17, 17);
+}
+
+.request-name {
+  flex: 1;
+  padding: 4px 4px;
+  position: relative;
+  left: -25px;
+  /* background-color: #1976d2; */
+  color: white;
+  font-size: 12px;
+  border-radius: 4px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: calc(100% - 60px); /* Account for method label */
+}
+
+.method-label {
+  color: #1976d2;
+  font-size: 12px;
+  font-weight: 600;
+  min-width: 45px;
+  text-transform: uppercase;
+}
