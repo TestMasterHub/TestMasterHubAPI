@@ -1,0 +1,110 @@
+/* Container styling */
+.container {
+  width: 107.5%;
+  height: 100%;
+  margin: 0px;
+  padding: 0px;
+  position: relative;
+  box-sizing: border-box !important;
+  left: -100px !important;
+}
+.card {
+  /* background-color: #fff; */
+  width: 100% !important;
+  height: 100% !important;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.cardHeader {
+  text-align: center;
+  background-color: #f4f4f4;
+}
+.cardTitle {
+  font-size: 24px;
+  font-weight: bold;
+  padding-left: 20px;
+}
+.cardContent {
+  padding-left: 20px;
+}
+
+/* Section for selections */
+.section {
+  position: relative;
+  top: -10px !important;
+  margin-bottom: 16px;
+}
+
+.sectionTitle {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 8px;
+  margin-top: 16px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 10px;
+  overflow-y: auto;
+}
+
+.checkboxWrapper {
+  display: flex;
+  align-items: center;
+}
+
+.checkboxLabel {
+  font-size: 14px;
+  margin-left: 8px;
+}
+
+/* Select dropdown styling */
+.select {
+  width: 25%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+/* Button for running the collections */
+.runButton {
+  width: 98.5%;
+  padding: 12px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.runButton:disabled {
+  background-color: #cccccc;
+}
+
+/* Logs section styling */
+.runLogs {
+  width: 98.5%;
+  height: 255px;
+  overflow-y: auto;
+  background-color: black !important;
+  padding: 10px;
+  border-radius: 4px;
+  margin-top: 10px;
+  color: white !important;
+  box-sizing: border-box;
+}
+
+.log {
+  font-size: 14px;
+  margin-bottom: 8px;
+}
+
+.success {
+  color: green;
+}
+
+.error {
+  color: red;
+}

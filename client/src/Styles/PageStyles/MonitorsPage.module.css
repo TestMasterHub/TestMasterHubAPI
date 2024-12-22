@@ -1,0 +1,143 @@
+/* MonitorsPage.module.css */
+.container {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  left: -100px;
+}
+
+.card {
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 104%;
+  max-width: 105% !important;
+  padding: 20px;
+}
+.cardHeader {
+  text-align: center;
+  border-bottom: 2px solid #f0f0f0;
+  padding-bottom: 15px;
+  margin-bottom: 20px;
+}
+
+.cardTitle {
+  font-size: 24px;
+  color: #333;
+}
+
+.cardContent {
+  display: flex;
+  flex-direction: column;
+}
+
+.section {
+  margin-bottom: 20px;
+}
+
+.sectionTitle {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 16px;
+}
+
+.runButton {
+  background-color: #007bff;
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+  width: 100%;
+}
+
+.runButton:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+
+.scheduledList {
+  margin-top: 20px;
+}
+
+.scheduledItem {
+  background-color: #f9f9f9;
+  border-radius: 4px;
+  padding: 10px;
+  margin-bottom: 10px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.scheduledItem div {
+  margin-bottom: 5px;
+}
+
+.scheduledItem strong {
+  color: #333;
+}
+
+.console {
+  margin-top: 30px;
+  background-color: #f8f9fa;
+  padding: 15px;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.consoleLogs {
+  background-color: #282c34;
+  color: #f8f9fa;
+  font-family: monospace;
+  padding: 10px;
+  border-radius: 4px;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.consoleLogs div {
+  padding: 5px 0;
+}
+
+.consoleLogs div:nth-child(even) {
+  background-color: #353b48;
+}
+
+.consoleLogs div:nth-child(odd) {
+  background-color: #444d56;
+}
+
+.scheduledItemStatus {
+  color: #007bff;
+  font-weight: bold;
+}
+
+.scheduledItemStatus.running {
+  color: #ffa500; /* Orange for running */
+}
+
+.scheduledItemStatus.completed {
+  color: #28a745; /* Green for completed */
+}
+
+.scheduledItemStatus.yet-to-start {
+  color: #dc3545; /* Red for yet to start */
+}
+
+input[type="date"],
+input[type="time"] {
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 16px;
+  width: 100%;
+}

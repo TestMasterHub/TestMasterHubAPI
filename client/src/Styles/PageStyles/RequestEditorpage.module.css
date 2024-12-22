@@ -9,30 +9,58 @@
   left: -100px;
 }
 .CHeadingInnerWrap {
-  width: 100%;
   height: 25px;
   position: relative;
   left: 0px;
-  width: 50%;
+  max-width: 85%;
   top: 10px;
 }
-
+.CollectionRequestDisplay {
+  font-weight: bold;
+  color: #0066cc;
+}
 .TabHeaderWrap {
   width: 100%;
   position: relative;
+  top: -7px;
+  height: 100%;
   display: flex;
+  padding: 3px;
+  box-sizing: border-box;
+}
+.CEnvironmentDropdown {
+  width: 12%;
+  height: 99%;
+  display: flex;
+  position: absolute;
+  top: 10px;
+  right: -180px;
+  margin-right: 10px;
+}
+.ESelectList {
+  border: none;
+  background-color: rgb(226, 225, 225);
 }
 .Tab {
   position: relative;
   margin-right: 1px;
-  width: 13%;
+  width: 10%;
+  height: 150%;
   border-right: 1px solid gray;
 }
+.CollectionRequestDisplay {
+  width: 17%;
+  padding: 2px 12px;
+  font-size: 14px;
+  border-bottom: 1px solid #e0e0e0;
+  color: #333;
+}
 .CAddTabButtonWrap {
+  width: 20px;
   background-color: transparent;
   border: none;
   position: relative;
-  top: 0px;
+  top: 5px;
   left: 0px;
 }
 .CAddBtnIcon {
@@ -61,7 +89,7 @@
 }
 .CSearchMainWrapper {
   width: 100%;
-  height: 40px;
+  height: 35px;
   display: flex;
   box-sizing: border-box;
 }
@@ -130,9 +158,9 @@
 }
 .CBodyWrapper {
   width: 100%;
-  height: 88%;
+  height: 86%;
   position: absolute;
-  top: 80px;
+  top: 95px;
   display: flex;
   flex-direction: row;
   box-sizing: border-box;
@@ -171,7 +199,7 @@
 }
 .CRequestOptionInputWrapper {
   width: 100%;
-  height: 557px;
+  height: 550px;
 }
 .LoadingField {
   position: absolute;
