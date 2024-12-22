@@ -1,7 +1,14 @@
 import React from "react";
 import styles from "../../Styles/RequestBody/AuthComp.module.css";
 
-const AuthComp = ({ authToken, setAuthToken, requestType, setRequestType, basicAuth, setBasicAuth }) => {
+const AuthComp = ({
+  authToken,
+  setAuthToken,
+  requestType,
+  setRequestType,
+  basicAuth,
+  setBasicAuth,
+}) => {
   return (
     <div className={styles.RAuthBody}>
       <div className={styles.RAuthTypeMainWrapper}>
@@ -24,7 +31,7 @@ const AuthComp = ({ authToken, setAuthToken, requestType, setRequestType, basicA
       </div>
       <hr></hr>
       <div className={styles.RAuthInputmainWrapper}>
-        {requestType === "Bearer" ? (
+        {requestType.toLowerCase() === "bearer" ? (
           <div className={styles.RAuthInputinnerWrapper}>
             <label className={styles.RAuthInputLabel}>Token</label>
             <input

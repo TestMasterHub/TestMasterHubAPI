@@ -1,0 +1,23 @@
+.buildsContainer {
+  max-width: 130px;
+  height: 18px;
+  box-sizing: border-box;
+  font-weight: 500;
+  position: relative;
+  top: -5px;
+}
+
+.buildContainer {
+  margin-bottom: 10px;
+  overflow: hidden;
+  box-sizing: border-box;
+  padding: 2px;
+  border-bottom: 1px solid #ccc;
+}
+
+.buildHeader {
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}

@@ -12,8 +12,8 @@ import ScriptsComp from "../Components/RequestBody/ScriptsComp";
 import TMH from "../Utlis/TMH";
 import { MdOutlineAdd } from "react-icons/md";
 import { v4 as uuidv4 } from "uuid";
-import { generateCollectionJson } from "../Utlis/generateCollectionJson";
-import HandleCollectionStorage from "../Utlis/HandleCollectionStorage";
+import { resolveAllEnvironmentVariables } from "../Utlis/EnvironmentVariableResolver";
+import JsonFileImporter from "../Utlis/JsonFileImporter";
 window.TMH = TMH;
 
 const useLocalStorage = (key, initialValue) => {
@@ -47,6 +47,8 @@ export default function RequestEditorpage() {
   const initialTab = {
     id: Date.now(),
     name: `Request 1`,
+    collectionName: `Untitled collection`,
+    activeEnvironment: "no_environment", // Add this line
     data: {
       requestType: "get",
       url: "",
@@ -99,12 +101,11 @@ export default function RequestEditorpage() {
       activeTabData?.queryParams || [{ key: "", value: "", description: "" }]
     );
   });
-  const [Ispageloaded, SetIspageloaded] = useState(false);
 
-  window.onload = () => {
-    updateTabData();
-    SetIspageloaded(true);
+  const extractCollectionName = (importedData) => {
+    return importedData.info?.name || "Unnamed Collection";
   };
+
   useEffect(() => {
     localStorage.setItem("savedTabs", JSON.stringify(tabs));
     localStorage.setItem("activeTabId", activeTabId.toString());
@@ -222,44 +223,114 @@ export default function RequestEditorpage() {
 
   useEffect(() => {
     const requestData = location.state?.request;
-    // const requestData = localStorage.getItem("newRequest");
+    console.log("location data: ", requestData);
+
     if (requestData) {
+      // Parse request body if it exists
+      let parsedBody = "";
+      if (requestData.request?.body?.raw) {
+        parsedBody = requestData.request.body.raw;
+      }
+
+      // Parse headers into the correct format
+      const headersObject = {};
+      if (requestData.request?.header) {
+        requestData.request.header.forEach((header) => {
+          headersObject[header.key] = header.value;
+        });
+      }
+
+      // Extract auth details
+      const authDetails = {
+        authToken: "",
+        authType: "bearer",
+        basicAuth: { username: "", password: "" },
+      };
+
+      if (requestData.request?.auth) {
+        authDetails.authType = requestData.request.auth.type;
+        if (
+          authDetails.authType === "bearer" &&
+          requestData.request.auth.bearer
+        ) {
+          authDetails.authToken =
+            requestData.request.auth.bearer[0]?.value || "";
+        } else if (
+          authDetails.authType === "basic" &&
+          requestData.request.auth.basic
+        ) {
+          authDetails.basicAuth = {
+            username: requestData.request.auth.basic[0]?.value || "",
+            password: requestData.request.auth.basic[1]?.value || "",
+          };
+        }
+      }
+
+      // Extract scripts
+      const scripts = {
+        preRequestScript: "",
+        testScript: "",
+      };
+
+      requestData.event?.forEach((event) => {
+        if (event.listen === "prerequest") {
+          scripts.preRequestScript = event.script.exec.join("\n");
+        } else if (event.listen === "test") {
+          scripts.testScript = event.script.exec.join("\n");
+        }
+      });
+
+      // Create the new tab
       const newTab = {
         id: Date.now(),
         name: requestData.name || "Request 1",
         data: {
           ...initialTab.data,
-          url: requestData.data?.url || "",
-          requestType: requestData.data?.requestType.toLowerCase() || "get",
-          headers: requestData.data?.headers || {},
-          authToken: requestData.data?.authToken || "", // Safely access authToken
-          authType: requestData.data?.authType?.toLowerCase() || "bearer", // Safely access authType
-          basicAuth: requestData.data?.basicAuth || {
-            username: "",
-            password: "",
-          },
-          preRequestScript: requestData.data?.preRequestScript || "",
-          testScript: requestData.data?.testScript || "",
-          requestBody: requestData.data?.requestBody || "",
-          pathParams: requestData.data?.pathParams || [
-            { key: "", value: "", description: "" },
-          ],
-          queryParams: requestData.data?.queryParams || [
-            { key: "", value: "", description: "" },
-          ],
+          url: requestData.request?.url?.raw || "",
+          requestType: requestData.request?.method?.toLowerCase() || "get",
+          headers: headersObject,
+          authToken: authDetails.authToken,
+          authType: authDetails.authType,
+          basicAuth: authDetails.basicAuth,
+          preRequestScript: scripts.preRequestScript,
+          testScript: scripts.testScript,
+          requestBody: parsedBody,
+          pathParams: requestData.request?.url?.variable?.map((param) => ({
+            key: param.key || "",
+            value: param.value || "",
+            description: param.description || "",
+          })) || [{ key: "", value: "", description: "" }],
+          queryParams: requestData.request?.url?.query?.map((param) => ({
+            key: param.key || "",
+            value: param.value || "",
+            description: param.description || "",
+          })) || [{ key: "", value: "", description: "" }],
         },
       };
+
+      // Update state
       setTabs([newTab]);
       setActiveTabId(newTab.id);
-      setUrl(requestData.data?.url.raw || "");
-      setDisplayUrl(requestData.data?.url.raw || "");
+
+      // Set URL states
+      setUrl(requestData.request?.url?.raw || "");
+      setDisplayUrl(requestData.request?.url?.raw || "");
+
+      // Set params
       setPathParams(
-        requestData.data?.url.variable || [
-          { key: "", value: "", description: "" },
-        ]
+        requestData.request?.url?.variable?.map((param) => ({
+          key: param.key || "",
+          value: param.value || "",
+          description: param.description || "",
+        })) || [{ key: "", value: "", description: "" }]
       );
+
       setQueryParams(
-        requestData.data?.url.query || [{ key: "", value: "", description: "" }]
+        requestData.request?.url?.query?.map((param) => ({
+          key: param.key || "",
+          value: param.value || "",
+          description: param.description || "",
+        })) || [{ key: "", value: "", description: "" }]
       );
     }
   }, [location.state]);
@@ -270,6 +341,7 @@ export default function RequestEditorpage() {
     const newTab = {
       id: defaultData?.id || uuidv4(), // Unique ID for the new tab
       name: defaultData?.name || `Request ${newTabIndex}`,
+      collectionName: defaultData?.collectionName || "Untitled Collection",
       data: {
         ...initialTab.data, // Use the initial tab data template
         url: defaultData?.url || "",
@@ -327,11 +399,16 @@ export default function RequestEditorpage() {
     [tabs]
   );
 
-  const updateTabName = (id, name) => {
+  const updateTabName = (id, name, collectionName) => {
     setTabs((prevTabs) =>
       prevTabs.map((tab) =>
         tab.id === id
-          ? { ...tab, name: name || "" } // Set to empty string if name is cleared
+          ? {
+              ...tab,
+              name: name || "",
+              collectionName:
+                collectionName || tab.collectionName || "Unnamed Collection",
+            }
           : tab
       )
     );
@@ -342,170 +419,25 @@ export default function RequestEditorpage() {
     return activeTab?.data || initialTab.data;
   };
 
-  const handleExportBtn = () => {
-    const collectionName = prompt("Verify Collection Name:");
+  const handleFileUpload = async (e) => {
+    try {
+      const importedData = await JsonFileImporter(e); // Wait for JsonFileImporter to finish
 
-    // Create the collection info object
-
-    // Map over tabs to create the item array with unique request IDs
-    const collectionItems = tabs.map((tab, index) => {
-      const activeTabData = getActiveTabData(tab.id);
-      if (!activeTabData) {
-        return null; // Skip this tab if the data is not available
-      }
-
-      return {
-        id: uuidv4(), // Unique ID for each request
-        name: tab.name || `Request ${index + 1}`,
-        request: {
-          auth: {
-            type: activeTabData.authType,
-            ...(activeTabData.authType === "Bearer"
-              ? {
-                  bearer: [
-                    {
-                      key: "token",
-                      value: activeTabData.authToken || "",
-                      type: "string",
-                    },
-                  ],
-                }
-              : {
-                  basic: [
-                    {
-                      key: "password",
-                      value: activeTabData.basicAuth.password || "",
-                      type: "string",
-                    },
-                    {
-                      key: "username",
-                      value: activeTabData.basicAuth.username || "",
-                      type: "string",
-                    },
-                  ],
-                }),
-          },
-          method: activeTabData.requestType.toUpperCase() || "GET",
-          header: Object.entries(activeTabData.headers || {}).map(
-            ([key, value]) => ({
-              key,
-              value,
-            })
-          ),
-          body: {
-            mode: "raw",
-            raw: activeTabData.requestBody || "",
-            options: {
-              raw: {
-                language: "json",
-              },
-            },
-          },
-          url: {
-            raw: activeTabData.url || "",
-            protocol: (activeTabData.url || "").split("://")[0],
-            host: (activeTabData.url || "")
-              .split("://")[1]
-              ?.split("/")[0]
-              .split("."),
-            path: (activeTabData.url || "")
-              .split("://")[1]
-              ?.split("/")
-              .slice(1),
-            query: (activeTabData.queryParams || []).map((param) => ({
-              key: param.key,
-              value: param.value,
-            })),
-            variable: (activeTabData.pathParams || []).map((param) => ({
-              key: param.key,
-              value: param.value,
-              description: param.description || "",
-            })),
-          },
-        },
-        event: [
-          {
-            listen: "prerequest",
-            script: {
-              type: "text/javascript",
-              exec: [activeTabData.preRequestScript || ""],
-            },
-          },
-          {
-            listen: "test",
-            script: {
-              type: "text/javascript",
-              exec: [activeTabData.testScript || ""],
-            },
-          },
-        ],
-      };
-    });
-
-    // Filter out any null values from the collectionItems array
-    const validCollectionItems = generateCollectionJson(
-      collectionName,
-      collectionItems.filter(Boolean)
-    );
-
-    // Construct the final collection JSON structure
-    const collectionDetails = validCollectionItems;
-
-    // Convert the collection data to JSON format
-    const collectionJson = JSON.stringify(collectionDetails, null, 2);
-
-    // Create a Blob object for the JSON data
-    const blob = new Blob([collectionJson], { type: "application/json" });
-
-    // Create a temporary link element for downloading the file
-    const link = document.createElement("a");
-    link.href = URL.createObjectURL(blob);
-
-    // Use a timestamp to generate a unique filename for the download
-    link.download = `API_Collection_${Date.now()}.json`;
-
-    // Programmatically trigger the download
-    link.click();
-
-    // Clean up the object URL to prevent memory leaks
-    URL.revokeObjectURL(link.href);
-  };
-
-  const handleFileUpload = (e) => {
-    const file = e.target.files[0];
-    const reader = new FileReader();
-
-    reader.onload = (event) => {
-      try {
-        const importedData = JSON.parse(event.target.result);
-        console.log("importedData: " + importedData.item);
-        // Validate the imported JSON structure
-        if (
-          importedData.info &&
-          importedData.item &&
-          Array.isArray(importedData.item)
-        ) {
-          // Save the imported data if needed
-          HandleCollectionStorage(importedData);
-
-          // Process the items array directly
-          populateFields(importedData.item);
-          window.location.reload();
-        } else {
-          alert(
-            "Invalid JSON structure. Expected a collection with info and items."
-          );
+      if (importedData) {
+        console.log("Imported collection data:", importedData);
+        const collectionName = extractCollectionName(importedData);
+        // Populate fields if it's a collection
+        if (importedData.item && Array.isArray(importedData.item)) {
+          populateFields(importedData.item, collectionName);
         }
-      } catch (error) {
-        console.error("Error processing file:", error);
-        alert("Invalid JSON file");
       }
-    };
-
-    reader.readAsText(file);
+    } catch (error) {
+      console.error("Error during file upload handling:", error);
+      alert("An error occurred while importing the file.");
+    }
   };
 
-  const populateFields = (importedItems) => {
+  const populateFields = (importedItems, collectionName) => {
     if (!importedItems || importedItems.length === 0) {
       alert("No valid requests found in imported data.");
       return;
@@ -521,15 +453,15 @@ export default function RequestEditorpage() {
         }
 
         // Determine authentication type and details
-        const authType = item.request.auth?.type || "Bearer";
+        const authType = item.request.auth?.type.toLowerCase() || "bearer";
         let authToken = "";
         let basicAuth = { username: "", password: "" };
 
-        if (authType === "Bearer") {
+        if (authType === "bearer") {
           authToken =
             item.request.auth?.bearer?.find((auth) => auth.key === "token")
               ?.value || "";
-        } else if (authType === "Basic") {
+        } else if (authType === "basic") {
           basicAuth = {
             username:
               item.request.auth?.basic?.find((auth) => auth.key === "username")
@@ -543,6 +475,7 @@ export default function RequestEditorpage() {
         return {
           id: Date.now() + index, // Ensure unique IDs
           name: item.name || `Request ${index + 1}`,
+          collectionName: collectionName,
           data: {
             ...initialTab.data,
             requestType: item.request.method.toLowerCase(),
@@ -660,7 +593,22 @@ export default function RequestEditorpage() {
   };
 
   const handleSendbtn = async () => {
+    // Retrieve environment data from localStorage
+    const storedEnvironments = localStorage.getItem("environments");
+    const environments = storedEnvironments
+      ? Object.values(JSON.parse(storedEnvironments))
+      : [];
+
     const activeTabData = getActiveTabData();
+
+    // Find the selected environment
+    const selectedEnvironment =
+      activeTabData.activeEnvironment !== "no_environment"
+        ? environments.find(
+            (env) => env.name === activeTabData.activeEnvironment
+          )
+        : null;
+
     if (!activeTabData.url) {
       updateTabData("urlError", true);
       return;
@@ -669,11 +617,26 @@ export default function RequestEditorpage() {
     updateTabData("urlError", false);
     updateTabData("isLoading", true);
 
-    let updatedUrl = activeTabData.url.split("?")[0];
-    console.log("requestData: " + updatedUrl + activeTabData.headers);
+    // Resolve environment variables before processing
+    const resolvedTabData = resolveAllEnvironmentVariables(
+      {
+        url: activeTabData.url,
+        requestType: activeTabData.requestType,
+        headers: activeTabData.headers,
+        requestBody: activeTabData.requestBody,
+        pathParams: activeTabData.pathParams,
+        queryParams: activeTabData.queryParams,
+        authToken: activeTabData.authToken,
+        basicAuth: activeTabData.basicAuth,
+      },
+      selectedEnvironment ? [selectedEnvironment] : []
+    );
+
+    let updatedUrl = resolvedTabData.url.split("?")[0];
+
     // Ensure pathParams is defined and is an array
-    const pathParams = Array.isArray(activeTabData.pathParams)
-      ? activeTabData.pathParams
+    const pathParams = Array.isArray(resolvedTabData.pathParams)
+      ? resolvedTabData.pathParams
       : [];
 
     pathParams.forEach((param) => {
@@ -684,8 +647,8 @@ export default function RequestEditorpage() {
     });
 
     // Ensure queryParams is defined and is an array
-    const queryParams = Array.isArray(activeTabData.queryParams)
-      ? activeTabData.queryParams
+    const queryParams = Array.isArray(resolvedTabData.queryParams)
+      ? resolvedTabData.queryParams
       : [];
 
     const queryString = queryParams
@@ -695,30 +658,31 @@ export default function RequestEditorpage() {
           `${encodeURIComponent(param.key)}=${encodeURIComponent(param.value)}`
       )
       .join("&");
-
+    console.log("resolvedTabData.requestBody: ", resolvedTabData.requestBody);
     const finalUrl = queryString ? `${updatedUrl}?${queryString}` : updatedUrl;
     try {
       const requestData = {
-        method: activeTabData.requestType,
+        method: resolvedTabData.requestType,
         url: finalUrl,
         headers: {
-          ...activeTabData.headers,
-          Authorization: activeTabData.authToken
-            ? `Bearer ${activeTabData.authToken}`
+          // If requestBody is already a string, parse it
+
+          ...resolvedTabData.headers,
+          Authorization: resolvedTabData.authToken
+            ? `Bearer ${resolvedTabData.authToken}`
             : "",
         },
         data: (() => {
           try {
-            // If requestBody is already a string, parse it
-            if (typeof activeTabData.requestBody === "string") {
-              return activeTabData.requestBody
-                ? JSON.parse(activeTabData.requestBody)
+            if (typeof resolvedTabData.requestBody === "string") {
+              return resolvedTabData.requestBody
+                ? JSON.parse(resolvedTabData.requestBody)
                 : {};
             }
 
             // If requestBody is an object, return it directly
-            if (typeof activeTabData.requestBody === "object") {
-              return activeTabData.requestBody || {};
+            if (typeof resolvedTabData.requestBody === "object") {
+              return resolvedTabData.requestBody || {};
             }
 
             // If requestBody is undefined or null, return an empty object
@@ -729,26 +693,22 @@ export default function RequestEditorpage() {
           }
         })(),
       };
-      // handleUrlChange(finalUrl);
+
       const { apiResponse, status } = await APIServer({
         requestData,
-        authToken: activeTabData.authToken,
-        requestType: activeTabData.authType,
-        basicAuth: activeTabData.basicAuth,
+        authToken: resolvedTabData.authToken,
+        requestType: resolvedTabData.authType,
+        basicAuth: resolvedTabData.basicAuth,
         preRequestScript: activeTabData.preRequestScript,
         testScript: activeTabData.testScript,
       });
-
-      if (getActiveTabData().apiResponse !== null) {
-        console.log("apiResponse", getActiveTabData().apiResponse);
-      }
 
       updateTabData("apiResponse", apiResponse);
       updateTabData("statusCode", status);
 
       logRequest(
-        activeTabData.requestType,
-        activeTabData.url,
+        resolvedTabData.requestType,
+        resolvedTabData.url,
         requestData,
         apiResponse,
         status
@@ -859,7 +819,7 @@ export default function RequestEditorpage() {
                   >
                     <input
                       type="text"
-                      value={tab.name || ""} // Ensure it's always a string
+                      value={`${tab.name || "Unnamed Request"}`} // Ensure it's always a string
                       onChange={(e) => updateTabName(tab.id, e.target.value)}
                       className={styles.TabNameInput}
                     />
@@ -872,9 +832,45 @@ export default function RequestEditorpage() {
                   />
                 </div>
               </div>
+              <div className={styles.CEnvironmentDropdown}>
+                <select
+                  className={styles.ESelectList}
+                  value={
+                    getActiveTabData().activeEnvironment || "no_environment"
+                  }
+                  onChange={(e) =>
+                    updateTabData("activeEnvironment", e.target.value)
+                  }
+                >
+                  <option value="no_environment">No Environment</option>
+                  {(() => {
+                    const storedEnvironments =
+                      localStorage.getItem("environments");
+                    const environments = storedEnvironments
+                      ? Object.values(JSON.parse(storedEnvironments))
+                      : [];
+
+                    return environments.map((env) => (
+                      <option key={env.name} value={env.name}>
+                        {env.name}
+                      </option>
+                    ));
+                  })()}
+                </select>
+              </div>
             </div>
           </div>
           <div className={styles.CollectionInnerWrapper}>
+            <div className={styles.CollectionRequestDisplay}>
+              {(() => {
+                const activeTab = tabs.find((tab) => tab.id === activeTabId);
+                return activeTab
+                  ? `${activeTab.collectionName || "Untitled Collection"}/${
+                      activeTab.name || "Unnamed Request"
+                    }`
+                  : "No Active Tab";
+              })()}
+            </div>
             <div className={styles.CSearchMainWrapper}>
               <div className={styles.CDropDownWrapper}>
                 <select
@@ -901,15 +897,10 @@ export default function RequestEditorpage() {
                 />
               </div>
               <div className={styles.CSavebtn}>
-                <button className={styles.CSaveField} onClick={handleExportBtn}>
-                  Export
-                </button>
-              </div>
-              {/* <div className={styles.CSavebtn}>
                 <button className={styles.CSaveField} onClick={handleclearBtn}>
                   ClearAll
                 </button>
-              </div> */}
+              </div>
               <div className={styles.CSendBtn}>
                 <button className={styles.CSendField} onClick={handleSendbtn}>
                   Send

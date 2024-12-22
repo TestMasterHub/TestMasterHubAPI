@@ -1,0 +1,73 @@
+.container {
+  width: 100%;
+  min-height: 100vh;
+  background-color: white !important;
+  box-sizing: border-box;
+  position: relative;
+  left: -100px;
+}
+
+.card {
+  background-color: white;
+  border-radius: 8px;
+  width: 104.5%;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+}
+
+.cardHeader {
+  text-align: center;
+  margin-bottom: 20px;
+  position: relative;
+  top: -15px;
+}
+
+.cardTitle {
+  font-size: 24px;
+  font-weight: bold;
+  color: #333;
+}
+
+.cardContent {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.sectionTitle {
+  font-size: 18px;
+  color: #444;
+  margin-bottom: 10px;
+  font-weight: 600;
+}
+
+.reportsList {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.reportItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.downloadButton {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  font-size: 14px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.downloadButton:hover {
+  background-color: #0056b3;
+}
+
+.downloadButton:focus {
+  outline: none;
+}

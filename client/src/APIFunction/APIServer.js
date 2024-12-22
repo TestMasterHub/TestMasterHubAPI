@@ -37,7 +37,7 @@ export default async function APIServer({
   testScript,
 }) {
   try {
-    console.log("Request Data:", requestData);
+    console.log("RequestData recived at API server:", requestData);
     await executePreRequestScript(preRequestScript, requestData);
 
     // Add appropriate Authorization header based on requestType

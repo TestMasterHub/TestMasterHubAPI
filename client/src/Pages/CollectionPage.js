@@ -4,7 +4,7 @@ import MainLayout from "../Layouts/MainLayout";
 import styles from "../Styles/PageStyles/CollectionPage.module.css";
 import LocalDB from "../Utlis/LocalDB";
 import { v4 as uuidv4 } from "uuid";
-import HandleCollectionStorage from "../Utlis/HandleCollectionStorage";
+import { HandleCollectionStorage } from "../Utlis/HandleCookieStorage";
 import { generateCollectionJson } from "../Utlis/generateCollectionJson";
 function CollectionPage({ handleFileUpload }) {
   const location = useLocation();
